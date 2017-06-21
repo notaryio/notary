@@ -1,3 +1,5 @@
+[![Travis](https://img.shields.io/travis/omarahm/notary.svg?style=flat-square)]() [![Codecov](https://img.shields.io/codecov/c/github/omarahm/notary.svg?style=flat-square)]() 
+
 Notary is a contracts broker. It provides a declarative way of sharing, validating and discovering contracts from all of your organization projects. Also, it allows you to generate all sort of extra artifacts out of those contracts like Client libraries, Stubbed endpoints, Dependency Graphs & much more.
 
 Support for multiple popular integration patterns like REST APIs will be shipped out of the box, plus the ability to easily extend the project with "Integrations plugins" to support even more patterns.

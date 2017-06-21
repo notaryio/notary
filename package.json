@@ -5,7 +5,7 @@
   "scripts": {
     "start": "node dist",
     "dev": "nodemon -w src/ --exec babel-node src/index.js",
-    "test": "npm run unit && npm run lint && npm run codecov",
+    "test": "npm run unit && npm run lint",
     "lint": "eslint ./src && eslint ./tests",
     "fixlint": "eslint --fix ./src && eslint --fix ./tests",
     "unit": "nyc npm run mocha && nyc report --reporter=text-lcov --silent > coverage.lcov",
