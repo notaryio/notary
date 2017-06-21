@@ -11,21 +11,27 @@ export default {
     const validateBasePath = (producerSwagger, consumerSwagger) => {
       if (producerSwagger.basePath !== consumerSwagger.basePath) {
         throw new VError(
-          `Expectation broken: ${inspect(producerSwagger.basePath)} != ${inspect(consumerSwagger.basePath)}`
+          `Expectation broken: ${inspect(producerSwagger.basePath)} != ${inspect(
+            consumerSwagger.basePath
+          )}`
         );
       }
     };
     const validateSchemes = (producerSwagger, consumerSwagger) => {
       if (!_.isMatch(producerSwagger.schemes, consumerSwagger.schemes)) {
         throw new VError(
-          `Expectation broken: \n\n ${inspect(consumerSwagger.schemes)} \n\nis not a subset of: \n\n${inspect(producerSwagger.schemes)}\n`
+          `Expectation broken: \n\n ${inspect(
+            consumerSwagger.schemes
+          )} \n\nis not a subset of: \n\n${inspect(producerSwagger.schemes)}\n`
         );
       }
     };
     const validatePaths = (producerSwagger, consumerSwagger) => {
       if (!_.isMatch(producerSwagger.paths, consumerSwagger.paths)) {
         throw new VError(
-          `Expectation broken: \n\n ${inspect(consumerSwagger.paths)} \n\nis not a subset of: \n\n${inspect(producerSwagger.paths)}`
+          `Expectation broken: \n\n ${inspect(
+            consumerSwagger.paths
+          )} \n\nis not a subset of: \n\n${inspect(producerSwagger.paths)}`
         );
       }
     };

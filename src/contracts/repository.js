@@ -34,7 +34,8 @@ export default {
     } catch (err) {
       throw new VError(
         err,
-        `Failed to fetch contracts for workspace: ${workspace.project.repo}/${workspace.project.dir}` +
+        `Failed to fetch contracts for workspace: ${workspace.project.repo}/${workspace.project
+          .dir}` +
           `@ ${workspace.rev}` +
           err.message
       );

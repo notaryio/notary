@@ -113,7 +113,9 @@ async function validate(
 
   if (!_.isMatch(promiseContractContent, expectationContractContent)) {
     throw new VError(
-      `Expectation broken: \n\n ${inspect(promiseContractContent)} \n\nis not a subset of: \n\n${inspect(expectationContractContent)}\n`
+      `Expectation broken: \n\n ${inspect(
+        promiseContractContent
+      )} \n\nis not a subset of: \n\n${inspect(expectationContractContent)}\n`
     );
   }
 }

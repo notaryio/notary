@@ -114,8 +114,11 @@ async function producerPromisesValidation(projectRevision, def) {
               .validate(projectRevision, pair.consumerProjectRev, promise, pair.consumerExpectation)
               .catch(err => {
                 throw new VError(
-                  `Consumer [ ${pair.consumerProjectRev.project().repo}:${pair.consumerProjectRev.project().dir}/ @ ${pair.consumerProjectRev.rev()} ] ` +
-                    `expectations of type (${pair.consumerExpectation.integrationType}) is broken: \n` +
+                  `Consumer [ ${pair.consumerProjectRev.project()
+                    .repo}:${pair.consumerProjectRev.project()
+                    .dir}/ @ ${pair.consumerProjectRev.rev()} ] ` +
+                    `expectations of type (${pair.consumerExpectation
+                      .integrationType}) is broken: \n` +
                     `============================================================================ \n` +
                     err.message
                 );
@@ -156,7 +159,8 @@ async function consumerExpectationsValidation(projectRevision, def) {
 
       return await facade.validate(upstream, projectRevision, upstreamPromise, e).catch(err => {
         throw new VError(
-          `Producer [ ${upstream.project().repo}:${upstream.project().dir}/ @ ${upstream.rev()} ] ` +
+          `Producer [ ${upstream.project().repo}:${upstream.project()
+            .dir}/ @ ${upstream.rev()} ] ` +
             `expectations of type (${e.integrationType}) is broken: \n` +
             `============================================================================ \n` +
             err.message

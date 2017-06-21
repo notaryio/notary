@@ -53,7 +53,8 @@ export default class ContractsIndexViewModel {
       const encodedId = new Buffer(
         `${c.projectRevision.workspace.project.repo}:${c.projectRevision.workspace.project.dir}`
       ).toString('base64');
-      c.contract.detailsLink = `/contracts/${encodedId}/master/promise/${c.contract.integrationType}`;
+      c.contract.detailsLink = `/contracts/${encodedId}/master/promise/${c.contract
+        .integrationType}`;
 
       return c;
     });
