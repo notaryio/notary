@@ -1,0 +1,54 @@
+type: object
+additionalProperties: true
+required: ["name"]
+properties:
+    name:
+      type: string
+      minLength: 1
+    meta:
+      type: object
+      required: ["tribe", "pod", "email"]
+      properties:
+        tribe:
+          type: string
+          minLength: 1
+        pod:
+          type: string
+          minLength: 1
+        email:
+          type: string
+          format: email
+          minLength: 1
+    contracts:
+        type: object
+        properties:
+            promises:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    integration:
+                      type: string
+                      integrationTypeMustBeEnabled: true
+                    dir:
+                      type: string
+            expectations:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    integration:
+                      type: string
+                      integrationTypeMustBeEnabled: true
+                    upstream:
+                      type: object
+                      required: ['repo']
+                      upstreamMustBeValidAndConfigured: true # todo: align naming, service vs repo(+dir) vs project
+                      properties:
+                        repo:
+                          type: string
+                          minLength: 1
+                        dir:
+                          type: string
+                    dir:
+                      type: string

@@ -1,0 +1,26 @@
+{
+  "root": true,
+  "parser": "babel-eslint",
+  "env": {
+    "node": true,
+    "es6": true,
+    "mocha": true
+  },
+  "extends": [
+    "eslint:recommended"
+  ],
+  "plugins": [
+    "prettier"
+  ],
+  "parserOptions": {
+    "ecmaVersion": 2017,
+    "sourceType": "module"
+  },
+  "rules": {
+    "semi": ["error", "always"],
+    "prettier/prettier": ["error", {
+      "singleQuote": true,
+      "printWidth": 100
+    }]
+  }
+}

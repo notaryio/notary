@@ -1,0 +1,7 @@
+localstorage_properties2:
+  - name: "broken_schema_notice_the_key"
+    value_schema:
+      type: object
+      properties:
+        - another_one:
+            type: int

@@ -1,0 +1,16 @@
+name: Broken Project 1
+description: "Explicitly named in such way to avoid people taking hints from this project structure/files"
+
+meta:
+  email: "seo-dev@goeuro.com"
+  tribe: growth
+  pod: growth-core
+
+contracts:
+  promises:
+    - integration: rest
+      dir: promises/rest-1
+    - integration: rest
+      dir: promises/rest-2
+
+  expectations: []

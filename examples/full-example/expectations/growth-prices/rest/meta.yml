@@ -1,0 +1,8 @@
+swagger: "2.0"
+info:
+  description: "Upstream expectations for the growth-prices project"
+  version: "1.0.0"
+  title: "test"
+basePath: "/v1"
+schemes:
+- "http"

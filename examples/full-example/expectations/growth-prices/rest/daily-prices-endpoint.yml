@@ -1,0 +1,15 @@
+paths:
+  /daily-prices:
+    get:
+      summary: "Some description"
+      description: ""
+      produces:
+      - "text/plain"
+      parameters:
+      - name: "filters[fromDate]"
+        in: "query"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "Whatevs, this is just a POC. This will be replaced by JSON schema describing the body"

@@ -1,0 +1,14 @@
+name: rest-golden-consumer
+
+meta:
+  email: "seo-dev@goeuro.com"
+  tribe: growth
+  pod: growth-core
+
+contracts:
+  promises: []
+  expectations:
+    - integration: rest
+      dir: expectations/good-rest-provider/rest
+      upstream:
+        repo: good-rest-provider

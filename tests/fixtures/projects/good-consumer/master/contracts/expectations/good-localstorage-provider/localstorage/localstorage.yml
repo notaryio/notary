@@ -1,0 +1,7 @@
+localstorage_properties:
+  - name: "dummy_localstorage_property"
+    value_schema:
+      type: object
+      properties:
+        - another_one:
+            type: int

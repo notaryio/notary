@@ -1,0 +1,11 @@
+name: Project 4
+
+meta:
+  email: "seo-dev@goeuro.com"
+  tribe: growth
+  pod: growth-core
+
+contracts:
+  promises:
+    - integration: rest
+      dir: promises/rest

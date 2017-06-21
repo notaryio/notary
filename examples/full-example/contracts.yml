@@ -1,0 +1,32 @@
+# name for the project, this will never be used as an identifier, only for display purposes
+name: Contracts
+
+# meta information, each key-val pair will be attached to the project as a tag.
+meta:
+  email: "your-team-email@your-company.com"
+  tribe: growth
+  team: growth-ppm
+
+contracts:
+
+  # producer promises, contracts that the project as a producer is committing to provide.
+  promises:
+    # the first value is the integration type to use for this contract definition, currently only
+    # "rest" is supported but later-on you will have more options like "pubsub", "database", etc..
+    - integration: rest
+      dir: promises/rest
+
+    - integration: localstorage
+      dir: promises/localstorage
+
+  # consumer expectations, contracts that describe what the project require from upstreams
+  expectations:
+    # upstream definition, repo is required and you can specifiy a dir if a non-standard "contracts/"
+    # directory is used. This project must have been added to the central registry before using it
+    # here as an upstream.
+    - upstream:
+        repo: c7s
+      integration: rest
+      # where the contracts for this definition are located, allows you to split and organize
+      # the files as you like.
+      dir: expectations/growth-prices/rest # by default, all files in the directory will be concatenated

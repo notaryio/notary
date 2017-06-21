@@ -1,0 +1,16 @@
+# name for the project, this will never be used as an identifier, only for display purposes
+name: "Your project name"
+
+# meta information, each key-val pair will be attached to the project as a tag.
+meta:
+  email: "your-team-email@your-company.com"
+  tribe: growth
+  team: growth-ppm
+  description: "One-line description for your project"
+
+contracts:
+  # producer promises, contracts that the project as a producer is committing to provide.
+  promises: []
+
+  # consumer expectations, contracts that describe what the project require from upstreams
+  expectations: []

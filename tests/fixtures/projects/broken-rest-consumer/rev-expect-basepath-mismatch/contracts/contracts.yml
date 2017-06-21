@@ -1,0 +1,14 @@
+name: Broken Project 3
+description: "Explicitly named in such way to avoid people taking hints from this project structure/files"
+
+meta:
+  email: "seo-dev@goeuro.com"
+  tribe: growth
+  pod: growth-core
+
+contracts:
+  expectations:
+    - integration: rest
+      dir: expectations/good-rest-provider/rest
+      upstream:
+        repo: good-rest-provider

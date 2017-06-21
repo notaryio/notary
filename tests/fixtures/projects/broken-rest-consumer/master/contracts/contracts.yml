@@ -1,0 +1,12 @@
+name: Simple Project 1
+
+meta:
+  email: "seo-dev@goeuro.com"
+  tribe: growth
+  pod: growth-core
+
+# Purposefully no contracts in master branch
+# (because: a broken-consumer master will fail good-producer tests)
+contracts:
+  promises: []
+  expectations: []

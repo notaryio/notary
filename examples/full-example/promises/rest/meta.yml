@@ -1,0 +1,8 @@
+swagger: "2.0"
+info:
+  description: "Project description"
+  version: "1.0.0"
+  title: "Swagger Petstore"
+basePath: "/v1"
+schemes:
+- "http"

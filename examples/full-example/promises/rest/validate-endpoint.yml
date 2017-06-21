@@ -1,0 +1,22 @@
+paths:
+  /daily-prices:
+    get:
+      summary: "Some description"
+      description: ""
+      operationId: "addPet"
+      produces:
+      - "text/plain"
+      parameters:
+      - name: "filters[fromDate]"
+        in: "query"
+        description: "An ISO-8601 date specifying the range start."
+        required: true
+        type: "string"
+      - name: "filters[toDate]"
+        in: "query"
+        description: "An ISO-8601 date specifying the range end."
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "Whatevs, this is just a POC. This will be replaced by JSON schema describing the body"

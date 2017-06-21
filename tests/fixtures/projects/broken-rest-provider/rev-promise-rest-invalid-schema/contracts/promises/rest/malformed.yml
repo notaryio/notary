@@ -1,0 +1,2 @@
+---
+  any-yml-file-will-be-parsed-as-swagger-file: "which means this is invalid"

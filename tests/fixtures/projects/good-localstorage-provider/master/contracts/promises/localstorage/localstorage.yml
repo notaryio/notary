@@ -1,0 +1,10 @@
+localstorage_properties:
+  - name: "dummy_localstorage_property"
+    description: "Some description for the property"
+    value_schema:
+      type: object
+      properties:
+        - some_property:
+            type: string
+        - another_one:
+            type: int

@@ -1,0 +1,10 @@
+name: Simple Project 1
+
+meta:
+  email: "seo-dev@goeuro.com"
+  tribe: growth
+  pod: growth-core
+
+contracts:
+  promises: []
+  expectations: []
