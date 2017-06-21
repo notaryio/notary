@@ -1,4 +1,4 @@
-[![Travis](https://img.shields.io/travis/omarahm/notary.svg?style=flat-square)]() [![Codecov](https://img.shields.io/codecov/c/github/omarahm/notary.svg?style=flat-square)]() 
+[![Travis](https://img.shields.io/travis/omarahm/notary.svg?style=flat-square)](https://travis-ci.org/omarahm/notary) [![Codecov](https://img.shields.io/codecov/c/github/omarahm/notary.svg?style=flat-square)](https://codecov.io/gh/omarahm/notary) 
 
 Notary is a contracts broker. It provides a declarative way of sharing, validating and discovering contracts from all of your organization projects. Also, it allows you to generate all sort of extra artifacts out of those contracts like Client libraries, Stubbed endpoints, Dependency Graphs & much more.
 
