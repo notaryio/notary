@@ -1,10 +1,11 @@
-[![Travis](https://img.shields.io/travis/omarahm/notary.svg?style=flat-square)](https://travis-ci.org/omarahm/notary) [![Codecov](https://img.shields.io/codecov/c/github/omarahm/notary.svg?style=flat-square)](https://codecov.io/gh/omarahm/notary) [![GitHub issues](https://img.shields.io/github/issues/omarahm/notary.svg?style=flat-square)](https://github.com/omarahm/notary/issues) [![license](https://img.shields.io/github/license/omarahm/notary.svg?style=flat-square)](https://github.com/omarahm/notary/blob/master/LICENSE) 
+[![Travis](https://img.shields.io/travis/omarahm/notary.svg?style=flat-square)](https://travis-ci.org/omarahm/notary) [![Codecov](https://img.shields.io/codecov/c/github/omarahm/notary.svg?style=flat-square)](https://codecov.io/gh/omarahm/notary) [![Join the chat at https://gitter.im/notary-contracts/Lobby](https://badges.gitter.im/notary-contracts/Lobby.svg)](https://gitter.im/notary-contracts/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) [![GitHub issues](https://img.shields.io/github/issues/omarahm/notary.svg?style=flat-square)](https://github.com/omarahm/notary/issues) [![license](https://img.shields.io/github/license/omarahm/notary.svg?style=flat-square)](https://github.com/omarahm/notary/blob/master/LICENSE) 
 
 Notary is a contracts broker. It provides a declarative way of sharing, validating and discovering contracts from all of your organization projects. Also, it allows you to generate all sort of extra artifacts out of those contracts like Client libraries, Stubbed endpoints, Dependency Graphs & much more.
 
 Support for multiple popular integration patterns like REST APIs will be shipped out of the box, plus the ability to easily extend the project with "Integrations plugins" to support even more patterns.
 
 ## What is a *Contract*?
+
 A contract is either a **Producer Promise** or a **Consumer Expectation**. In C7s, it's a meta-data describing how to use a specific shared integration point, e.g.: a Swagger file describing exposed REST API endpoint including API versioning, paths, supported methods, response entities, etc..
 
 ## How does the provider/consumer validation work?
