@@ -5,6 +5,8 @@ import config from '../../config';
 import { ProjectWorkspace } from '../models';
 import ProjectRepository from '../repositories/project';
 
+let cache = {};
+
 export default {
   /**
    * Synchronize the master branch of all configured projects on startup,
@@ -23,6 +25,10 @@ export default {
   },
 
   async syncProjectWorkspace(projectWorkspace) {
+    if (this.wasSynchronizedRecently(projectWorkspace)) {
+      return Promise.resolve(true);
+    }
+
     let authParam = `--user 'x-oauth-token:${config.githubToken}' `;
     if (config.githubToken === '') {
       authParam = '';
@@ -36,8 +42,23 @@ export default {
       .project.dir}/' --anchored
     `;
 
-    return exec(cmd).catch(err => {
-      throw new VError(`Synchronization error: ${err.message}`);
-    });
+    return exec(cmd)
+      .then(() => {
+        cache[this.getCacheKey(projectWorkspace)] = Date.now();
+      })
+      .catch(err => {
+        throw new VError(`Synchronization error: ${err.message}`);
+      });
+  },
+
+  wasSynchronizedRecently(projectWorkspace) {
+    const key = this.getCacheKey(projectWorkspace);
+
+    return key in cache && cache[key] > Date.now() - 60 * 1000;
+  },
+
+  getCacheKey(projectWorkspace) {
+    return `${projectWorkspace.owner}/${projectWorkspace.project.repo}:${projectWorkspace.project
+      .dir}@${projectWorkspace.rev}`;
   }
 };
