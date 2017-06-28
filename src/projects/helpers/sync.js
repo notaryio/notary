@@ -36,8 +36,8 @@ export default {
 
     const cmd = `
       mkdir -p ${projectWorkspace.getContractsPath()} \\
-        && curl --fail --silent ${authParam} -L 'https://api.github.com/repos/${projectWorkspace.owner}/${projectWorkspace
-      .project.repo}/tarball/${projectWorkspace.rev}' \\
+        && curl --fail --silent ${authParam} -L 'https://api.github.com/repos/${projectWorkspace
+      .project.owner}/${projectWorkspace.project.repo}/tarball/${projectWorkspace.rev}' \\
         | tar xz -C ${projectWorkspace.getPath()} --strip-components 1 --wildcards '*/${projectWorkspace
       .project.dir}/' --anchored
     `;
