@@ -12,6 +12,7 @@ A contract is either a **Producer Promise** or a **Consumer Expectation**. In C7
 To validate your contracts you need to issue a request to the [validation endpoint]. Ideally, this will be done automatically in your CI pipeline.
 
 The validation process includes:
+
 1. Syntactic validation
 1. Check if all of the project's promises satisfy its consumers
 1. Check if all of the project's expectations are honored by its upstream providers

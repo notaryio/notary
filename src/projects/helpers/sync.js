@@ -5,7 +5,7 @@ import config from '../../config';
 import { ProjectWorkspace } from '../models';
 import ProjectRepository from '../repositories/project';
 
-const ORGANIZATION_NAME = 'goeuro';
+const ORGANIZATION_NAME = 'omarahm'; //todo: make this configurable
 
 export default {
   /**

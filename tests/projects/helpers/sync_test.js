@@ -33,17 +33,14 @@ describe('syncProjectWorkspace() in the sync helper', () => {
   });
 
   it('downloads & unpacks correct contracts/ directory', async () => {
-    // I am using a dummy "ProjectWorkspace" to point to one of GoEuro's public repository
-    // at https://github.com/goeuro/challenges so the synchronization command can
-    // be tested without requiring a production token
     const workspace = new models.ProjectWorkspace({
-      project: new models.Project({ repo: 'challenges', dir: 'bus_route_challenge' }),
+      project: new models.Project({ repo: 'notary', dir: 'examples/barebones' }),
       rev: 'master'
     });
 
     await syncHelper.syncProjectWorkspace(workspace);
 
-    assert.isTrue(fs.existsSync(path.join(workspace.getContractsPath(), 'README.md')));
+    assert.isTrue(fs.existsSync(path.join(workspace.getContractsPath(), 'contracts.yml')));
   }).timeout(15000);
 
   it('throws an error for non-existing repository in Github', async () => {
