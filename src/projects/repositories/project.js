@@ -12,7 +12,11 @@ const projectsRaw = yaml.load(fs.readFileSync(config.projectsYmlPath));
 export default {
   async all() {
     return projectsRaw.projects.map(p => {
-      return new Project({ repo: p.repo, dir: _.defaultTo(p.dir, 'contracts') });
+      return new Project({
+        repo: p.repo,
+        dir: _.defaultTo(p.dir, 'contracts'),
+        owner: _.defaultTo(p.repoOwner, config.defaultRepoOwner)
+      });
     });
   },
 

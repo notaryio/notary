@@ -19,10 +19,12 @@ if (!fs.existsSync(tmpDir)) {
 
 const githubToken = process.env.GITHUB_TOKEN || '';
 const projectsYmlPath = process.env.YML_PATH || path.join(__dirname, '..', 'sample-projects.yml');
+const defaultRepoOwner = process.env.DEFAULT_REPOSITORY_OWNER || '';
 
 export default {
   logger,
   tmpDir,
   githubToken,
-  projectsYmlPath
+  projectsYmlPath,
+  defaultRepoOwner
 };

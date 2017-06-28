@@ -5,8 +5,6 @@ import config from '../../config';
 import { ProjectWorkspace } from '../models';
 import ProjectRepository from '../repositories/project';
 
-const ORGANIZATION_NAME = 'omarahm'; //todo: make this configurable
-
 export default {
   /**
    * Synchronize the master branch of all configured projects on startup,
@@ -32,7 +30,7 @@ export default {
 
     const cmd = `
       mkdir -p ${projectWorkspace.getContractsPath()} \\
-        && curl --fail --silent ${authParam} -L 'https://api.github.com/repos/${ORGANIZATION_NAME}/${projectWorkspace
+        && curl --fail --silent ${authParam} -L 'https://api.github.com/repos/${projectWorkspace.owner}/${projectWorkspace
       .project.repo}/tarball/${projectWorkspace.rev}' \\
         | tar xz -C ${projectWorkspace.getPath()} --strip-components 1 --wildcards '*/${projectWorkspace
       .project.dir}/' --anchored

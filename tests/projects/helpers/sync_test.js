@@ -35,7 +35,8 @@ describe('syncProjectWorkspace() in the sync helper', () => {
   it('downloads & unpacks correct contracts/ directory', async () => {
     const workspace = new models.ProjectWorkspace({
       project: new models.Project({ repo: 'notary', dir: 'examples/barebones' }),
-      rev: 'master'
+      rev: 'master',
+      owner: 'omarahm'
     });
 
     await syncHelper.syncProjectWorkspace(workspace);

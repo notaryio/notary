@@ -1,8 +1,7 @@
-gitCredentials:
-  username: "YOUR-GITHUB-TOKEN"
-  password: "YOUR-GITHUB-TOKEN"
 projects:
-  - repo: github.com/organization/repo-1
+  - repo: repo-1
+    repoOwner: organization
     dir: contracts
-  - repo: github.com/organization/repo-2
+  - repoOwner: organization
+    repo: repo-2
     dir: custom-dir/contracts
