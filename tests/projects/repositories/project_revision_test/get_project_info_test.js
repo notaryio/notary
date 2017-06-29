@@ -23,9 +23,9 @@ describe('getProjectInfo() in projects revision repository', () => {
       new models.ProjectInfo({
         name: 'Simple Project 1',
         meta: {
-          email: 'seo-dev@goeuro.com',
-          tribe: 'growth',
-          pod: 'growth-core'
+          email: 'team@company.com',
+          tribe: 'tribe-name',
+          pod: 'team-name'
         }
       })
     );
