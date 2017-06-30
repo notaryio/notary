@@ -1,6 +1,6 @@
 [![Travis](https://img.shields.io/travis/notaryio/notary.svg?style=flat-square)](https://travis-ci.org/notaryio/notary) [![Codecov](https://img.shields.io/codecov/c/github/notaryio/notary.svg?style=flat-square)](https://codecov.io/gh/notaryio/notary) [![Join the chat at https://gitter.im/notary-contracts/Lobby](https://badges.gitter.im/notaryio/Lobby.svg)](https://gitter.im/notaryio/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) [![GitHub issues](https://img.shields.io/github/issues/notaryio/notary.svg?style=flat-square)](https://github.com/notaryio/notary/issues) [![license](https://img.shields.io/github/license/notaryio/notary.svg?style=flat-square)](https://github.com/notaryio/notary/blob/master/LICENSE) 
 
-Notary is a contracts broker. It provides a declarative way of sharing, validating and discovering contracts from all of your organization projects. Also, it allows you to generate all sort of extra artifacts out of those contracts like Client libraries, Stubbed endpoints, Dependency Graphs & much more.
+notary is a contracts broker. It provides a declarative way of sharing, validating and discovering contracts from all of your organization projects. Also, it allows you to generate all sort of extra artifacts out of those contracts like Client libraries, Stubbed endpoints, Dependency Graphs & much more. 
 
 Support for multiple popular integration patterns like REST APIs will be shipped out of the box, plus the ability to easily extend the project with "Integrations plugins" to support even more patterns.
 
