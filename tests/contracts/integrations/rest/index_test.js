@@ -141,7 +141,7 @@ describe('validate() in the REST APIs integration type facade', () => {
         expectation
       );
     } catch (err) {
-      assert.include(err.message, 'is not a subset of');
+      assert.include(err.message, 'Expectation broken');
     }
   });
   it("throws an error if consumer expected basePath doesn't match the producer promised basePath", async () => {
@@ -170,7 +170,9 @@ describe('validate() in the REST APIs integration type facade', () => {
         expectation
       );
     } catch (err) {
-      assert.include(err.message, "Expectation broken: '/api' != '/api/v2'");
+      assert.include(err.message, 'Expectation broken');
+      assert.include(err.message, 'basePath --> /api');
+      assert.include(err.message, 'basePath --> /api/v2');
     }
   });
   it('throws an error if consumer expected supported schemes(HTTP, HTTPS) are not a subset of the producer promised schemes', async () => {
@@ -199,7 +201,9 @@ describe('validate() in the REST APIs integration type facade', () => {
         expectation
       );
     } catch (err) {
-      assert.include(err.message, 'is not a subset of');
+      assert.include(err.message, 'Expectation broken');
+      assert.include(err.message, "Expected: schemes --> 0 --> 'https'");
+      assert.include(err.message, "Promised: schemes --> 0 --> 'http'");
     }
   });
 });

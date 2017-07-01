@@ -42,6 +42,7 @@
       required:
         - "id"
         - "name"
+        - "inexistent-field"
       properties:
         id:
           type: "integer"

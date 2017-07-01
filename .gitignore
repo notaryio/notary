@@ -184,3 +184,4 @@ tmp
 dist/
 notary.iml
 coverage.lcov
+projects.yml
