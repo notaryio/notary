@@ -1,7 +1,7 @@
 
 <h1 align="center">
   <br>
-  <img src="https://dummyimage.com/200x200/000/fff.png&text=Project+Logo" alt="notary" width="200">
+  <img src="https://raw.githubusercontent.com/notaryio/notary/master/docs/visual-assets/logo.svg" alt="notary" width="200">
   <br>
 </h1>
 
