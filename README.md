@@ -1,6 +1,23 @@
-[![GitHub release](https://img.shields.io/github/release/notaryio/notary.svg?style=flat-square)](https://github.com/notaryio/notary/releases/latest) [![Travis](https://img.shields.io/travis/notaryio/notary.svg?style=flat-square)](https://travis-ci.org/notaryio/notary) [![Codecov](https://img.shields.io/codecov/c/github/notaryio/notary.svg?style=flat-square)](https://codecov.io/gh/notaryio/notary) [![Gitter](https://img.shields.io/gitter/room/nwjs/nw.js.svg?style=flat-square)](https://gitter.im/notaryio/Lobby) [![GitHub issues](https://img.shields.io/github/issues/notaryio/notary.svg?style=flat-square)](https://github.com/notaryio/notary/issues) [![license](https://img.shields.io/github/license/notaryio/notary.svg?style=flat-square)](https://github.com/notaryio/notary/blob/master/LICENSE) 
 
-notary is a contracts broker. It provides a declarative way of sharing, validating and discovering contracts from all of your organization projects. Also, it allows you to generate all sort of extra artifacts out of those contracts like Client libraries, Stubbed endpoints, Dependency Graphs & much more. 
+<h1 align="center">
+  <br>
+  <img src="https://dummyimage.com/200x200/000/fff.png&text=Project+Logo" alt="notary" width="200">
+  <br>
+</h1>
+
+<h4 align="center">A contracts broker that provides a declarative way of sharing, validating & discovering contracts between multiple projects.</h4>
+
+<p align="center">
+  <a href="https://github.com/notaryio/notary/releases/latest"><img src="https://img.shields.io/github/release/notaryio/notary.svg?style=flat-square" title="GitHub release"/></a>
+  <a href="https://travis-ci.org/notaryio/notary"><img src="https://img.shields.io/travis/notaryio/notary.svg?style=flat-square" title="Travis"/></a>
+  <a href="https://codecov.io/gh/notaryio/notary"><img src="https://img.shields.io/codecov/c/github/notaryio/notary.svg?style=flat-square" title="Codecov"/></a>
+  <a href="https://gitter.im/notaryio/Lobby"><img src="https://img.shields.io/gitter/room/nwjs/nw.js.svg?style=flat-square" title="Gitter"/></a>
+  <a href="https://github.com/notaryio/notary/issues"><img src="https://img.shields.io/github/issues/notaryio/notary.svg?style=flat-square" title="GitHub issues"/></a>
+  <a href="https://github.com/notaryio/notary/blob/master/LICENSE"><img src="https://img.shields.io/github/license/notaryio/notary.svg?style=flat-square" title="license"/></a>
+</p>
+<br> 
+
+Beside contracts validation, sharing & discovery, notary also allows you to generate all sort of extra artifacts out of those contracts like Client libraries, Stubbed endpoints, Dependency Graphs & much more. 
 
 Support for multiple popular integration patterns like REST APIs will be shipped out of the box, plus the ability to easily extend the project with "Integrations plugins" to support even more patterns.
 
