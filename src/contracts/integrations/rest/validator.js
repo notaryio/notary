@@ -71,7 +71,9 @@ export default {
       differences = differences
         // we don't care if the rhs is missing a field from lhs, it only needs to be a sub-set
         .filter(d => {
-          return d.kind !== 'D' || (d.kind === 'A' && d.item.kind === 'D');
+          const arrayDeletion = d.kind === 'A' && d.item.kind === 'D';
+
+          return d.kind !== 'D' && !arrayDeletion;
         });
     }
 
