@@ -1,5 +1,6 @@
 import { exec } from 'child-process-promise';
 import { VError } from 'verror';
+import _ from 'lodash';
 
 import config from '../../config';
 import { ProjectWorkspace } from '../models';
@@ -34,10 +35,11 @@ export default {
       authParam = '';
     }
 
+    const repoOwner = _.defaultTo(projectWorkspace.project.owner, config.defaultRepoOwner);
     const cmd = `
       mkdir -p ${projectWorkspace.getContractsPath()} \\
-        && curl --fail --silent ${authParam} -L 'https://api.github.com/repos/${projectWorkspace
-      .project.owner}/${projectWorkspace.project.repo}/tarball/${projectWorkspace.rev}' \\
+        && curl --fail --silent ${authParam} -L 'https://api.github.com/repos/${repoOwner}/${projectWorkspace
+      .project.repo}/tarball/${projectWorkspace.rev}' \\
         | tar xz -C ${projectWorkspace.getPath()} --strip-components 1 --wildcards '*/${projectWorkspace
       .project.dir}/' --anchored
     `;
