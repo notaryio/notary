@@ -1,0 +1,22 @@
+---
+name: add-to-wishlist
+category: product-interactions
+# todo: add a real-world example as the long description
+description: |
+  Extended description for the event, examples and implementation details.
+  Extended description for the event, examples and implementation details.
+  Extended description for the event, examples and implementation details.
+  Extended description for the event, examples and implementation details.
+fieldsSchema:
+  type: object
+  properties:
+    productSku:
+      type: string
+    userId:
+      type: integer
+    page:
+      type: string
+      enum: ["homepage", "catalog", "pdp"]
+  required:
+    - productSku
+    - userId

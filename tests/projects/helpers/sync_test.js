@@ -17,7 +17,7 @@ describe('syncAllProjectsOnStartup() in the sync helper', () => {
     stub.returns(Promise.resolve(true));
 
     await syncHelper.syncAllProjectsOnStartup();
-    assert.equal(syncHelper.syncProjectWorkspace.callCount, 8);
+    assert.equal(syncHelper.syncProjectWorkspace.callCount, 11);
   }).timeout(15000);
 });
 

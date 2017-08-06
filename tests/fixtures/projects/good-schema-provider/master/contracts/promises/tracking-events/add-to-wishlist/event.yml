@@ -1,0 +1,16 @@
+---
+name: add-to-wishlist
+category: product-interactions
+description: |
+  Add to Wishlist extended description for the event, examples and implementation details.
+fieldsSchema:
+  type: object
+  properties:
+    productSku:
+      type: string
+    page:
+      type: string
+      enum: ["homepage", "catalog", "pdp"]
+  required:
+    - productSku
+    - page

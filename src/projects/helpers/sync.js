@@ -31,11 +31,11 @@ export default {
     }
 
     let authParam = `--user 'x-oauth-token:${config.githubToken}' `;
-    if (config.githubToken === '') {
+    if (!config.githubToken) {
       authParam = '';
     }
 
-    const repoOwner = _.defaultTo(projectWorkspace.project.owner, config.defaultRepoOwner);
+    const repoOwner = _.defaultTo(projectWorkspace.project.owner, config.defaultRepositoryOwner);
     const cmd = `
       mkdir -p ${projectWorkspace.getContractsPath()} \\
         && curl --fail --silent ${authParam} -L 'https://api.github.com/repos/${repoOwner}/${projectWorkspace

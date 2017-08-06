@@ -2,7 +2,8 @@ import _ from 'lodash';
 
 const ITYPES_VIEW_MAPPER = {
   rest: 'REST',
-  localstorage: 'localstorage'
+  localstorage: 'localstorage',
+  schema: 'Schema'
 };
 
 export default class ContractsIndexViewModel {

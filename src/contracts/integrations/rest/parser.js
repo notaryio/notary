@@ -16,6 +16,10 @@ export default {
       });
     });
 
+    if (files.length === 0) {
+      throw new VError(`Could'nt find any non-empty yaml/yml files in ${baseDir}`);
+    }
+
     const filesContent = await Promise.all(
       files.map(async f => {
         return new Promise((resolve, reject) => {

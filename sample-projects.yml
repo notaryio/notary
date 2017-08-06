@@ -1,7 +1,0 @@
-projects:
-  - repo: repo-1
-    repoOwner: organization
-    dir: contracts
-  - repoOwner: organization
-    repo: repo-2
-    dir: custom-dir/contracts

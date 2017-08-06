@@ -19,6 +19,20 @@ contracts:
     - integration: localstorage
       dir: promises/localstorage
 
+    - integration: schema
+      dir: promises/tracking-events/add-to-basket
+      meta:
+        prototypeName: trackingEvent
+        name: add-to-basket
+        description: User adds a specific SKU to the shopping basket
+
+    - integration: schema
+      dir: promises/tracking-events/add-to-wishlist
+      meta:
+        prototypeName: trackingEvent
+        name: add-to-wishlist
+        description: User adds a specific SKU to their wishlist
+
   # consumer expectations, contracts that describe what the project require from upstreams
   expectations:
     # upstream definition, repo is required and you can specifiy a dir if a non-standard "contracts/"

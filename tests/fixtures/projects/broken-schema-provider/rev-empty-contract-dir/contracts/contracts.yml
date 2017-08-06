@@ -1,0 +1,16 @@
+name: Good schema provider
+description: "Project utilizing the schema integration type for promises"
+
+meta:
+  email: "team@company.com"
+  tribe: tribe-name
+  pod: team-name
+
+contracts:
+  promises:
+    - integration: schema
+      dir: promises/tracking-events/add-to-basket
+      meta:
+        prototypeName: trackingEvent
+        name: add-to-basket
+        description: ""

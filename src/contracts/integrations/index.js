@@ -1,6 +1,7 @@
 const types = {
   rest: require('./rest'),
-  localstorage: require('./localstorage')
+  localstorage: require('./localstorage'),
+  schema: require('./schema')
 };
 
 export default {

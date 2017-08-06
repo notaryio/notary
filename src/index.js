@@ -4,6 +4,7 @@ import config from './config';
 import sync from './projects/helpers/sync';
 
 sync
+  //todo: .validateConfiguration()
   .syncAllProjectsOnStartup()
   .then(function() {
     const server = api.listen(3000, '0.0.0.0', () => config.logger.info('API server running'));

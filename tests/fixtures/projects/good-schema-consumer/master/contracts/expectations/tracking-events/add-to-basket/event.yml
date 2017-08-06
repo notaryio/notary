@@ -1,0 +1,16 @@
+---
+name: add-to-basket
+category: product-interactions
+fieldsSchema:
+  type: object
+  properties:
+    productSku:
+      type: string
+    userId:
+      type: integer
+    page:
+      type: string
+      enum: ["homepage", "catalog", "pdp"]
+  required:
+    - productSku
+    - userId

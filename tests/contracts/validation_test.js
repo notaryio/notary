@@ -28,7 +28,24 @@ describe('isValid() in the contracts validation service', () => {
     }
   });
 
-  it('throws an error on multiple promises of the same integration type', async () => {
+  it('passes when multiple promises of the same integration type is defined but with unqiue meta.name', async () => {
+    const projectRevision = await projectRevisionRepo.findByRepoDirAndRev(
+      'good-schema-provider',
+      'contracts',
+      'master'
+    );
+
+    require('src/contracts/integrations').default = stubIntegration(true, true);
+    const service = require('src/contracts/validation').default;
+
+    try {
+      await service.isValid(projectRevision);
+    } catch (err) {
+      assert.deepEqual(err, {}, "shouldn't throw an error.");
+    }
+  });
+
+  it('throws an error on multiple promises of the same integration type with no unqiue meta.name', async () => {
     const projectRevision = await projectRevisionRepo.findByRepoDirAndRev(
       'broken-rest-provider',
       'contracts',
@@ -43,7 +60,7 @@ describe('isValid() in the contracts validation service', () => {
     } catch (err) {
       assert.include(
         err.message,
-        'You can have a maximum of one producer promise for each integration type'
+        'Error, project promises of type rest is not uniquely identifiable.'
       );
     }
   });

@@ -1,0 +1,30 @@
+defaultRepositoryOwner: "notaryio"
+githubToken: ""
+modules:
+  schema:
+    prototypes:
+        - name: trackingEvent
+          schema:
+            type: object
+            properties:
+              name:
+                type: string
+              category:
+                type: string
+                enum: ["product-interactions", "conversion-events", "personalisation"]
+              description:
+                type: string
+              fieldsSchema:
+                type: object
+            required:
+              - name
+              - category
+              - description
+              - fieldsSchema
+projects:
+  - repo: repo-1
+    repoOwner: organization
+    dir: contracts
+  - repoOwner: organization
+    repo: repo-2
+    dir: custom-dir/contracts
