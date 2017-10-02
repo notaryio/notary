@@ -40,7 +40,7 @@ if (!config.coreUrl) {
 
 config.logger = logger;
 config.tmpDir = tmpDir;
-config.hive = new MasterNode(3010);
-config.logger.info(`[notary-hive] Master node is up at :3010`);
+config.hive = new MasterNode(process.env.HIVE_MASTER_PORT);
+config.logger.info(`[notary-hive] Master node is up at :${process.env.HIVE_MASTER_PORT}`);
 
 export default config;

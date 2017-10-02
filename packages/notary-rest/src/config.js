@@ -13,6 +13,9 @@ config.logger = new winston.Logger({
   ]
 });
 
+config.restUrl = process.env.REST_URL;
+config.restPort = process.env.REST_PORT;
+
 config.hive = new SlaveNode({
   hiveMasterEndpoint: process.env.HIVE_MASTER_ENDPOINT,
   hiveLocalPort: process.env.HIVE_SLAVES_REST_PORT,

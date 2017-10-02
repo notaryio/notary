@@ -27,7 +27,7 @@ export default class MasterNode {
           return response.data;
         });
       })
-    ));
+    )).filter(r => !!r);
   }
 
   async publishAsync(name, data, async, publisher) {

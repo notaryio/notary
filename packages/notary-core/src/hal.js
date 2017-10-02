@@ -37,8 +37,12 @@ export default {
         }
       },
       _embedded: {
-        promises: revision.contracts.filter(c => c.type === 'promise').map(c => this.toContract(c, project, revision)),
-        expectations: revision.contracts.filter(c => c.type === 'expectation').map(c => this.toContract(c, project, revision))
+        promises: await Promise.all(
+          revision.contracts.filter(c => c.type === 'promise').map(async c => await this.toContract(c, project, revision))
+        ),
+        expectations: await Promise.all(
+          revision.contracts.filter(c => c.type === 'expectation').map(async c => await this.toContract(c, project, revision))
+        )
       },
       _links: {
         self: {
@@ -48,7 +52,7 @@ export default {
     };
   },
 
-  toContract(contract, project, revision) {
+  async toContract(contract, project, revision) {
     const encodedProjectId = this.toEncodedProjectId(project);
     const baseUri = `${config.coreUrl}/projects/${encodedProjectId}/revisions/${revision.rev()}`;
 
@@ -60,14 +64,18 @@ export default {
       annotations: contract.meta,
       _links: {
         project: {
-          href: `${config.coreUrl}/projects/${encodedProjectId}`
+          href: `${config.coreUrl}/projects/${encodedProjectId}`,
+          label: 'Get contract\'s project'
         },
         revision: {
-          href: `${config.coreUrl}/projects/${encodedProjectId}/revisions/${revision.rev()}`
+          href: `${config.coreUrl}/projects/${encodedProjectId}/revisions/${revision.rev()}`,
+          label: 'Get contract\'s revision'
         },
         "raw-content": {
-          href: `${baseUri}/contracts/${contract.name}/raw-content`
-        }
+          href: `${baseUri}/contracts/${contract.name}/raw-content`,
+          label: 'Download contract\'s content as a ZIP archive'
+        },
+        ...(await this.extraActions(project, revision, contract))
       }
     };
 
@@ -90,7 +98,31 @@ export default {
     };
   },
 
+  async extraActions(project, revision, contract) {
+    const response = await config.hive.publish('CONTRACT_AVAILABLE_ACTIONS', {
+      project: this.toEncodedProjectId(project),
+      revision: revision.rev(),
+      contract: contract.name,
+      integrationPlugin: contract.integrationType,
+    }, false, 'notary-core');
+
+    let actions = {};
+    response.forEach(r => {
+      const typeActions = r[`${contract.type}Actions`];
+      if (!typeActions) return;
+      typeActions.forEach(a => {
+        console.log(a);
+        actions[a.name] = {
+          href: a.href,
+          label: a.label
+        }
+      });
+    });
+
+    return actions;
+  },
+
   toEncodedProjectId(project) {
-    return Buffer.from(`${project.repo}|${project.dir}`).toString('base64')
+    return Buffer.from(`${project.repo}|${project.dir}`).toString('base64');
   }
 }
