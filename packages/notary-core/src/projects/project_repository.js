@@ -1,8 +1,8 @@
 import { VError } from 'verror';
 import _ from 'lodash';
 
-import { Project } from '../models';
-import config from '../../config';
+import { Project } from './models';
+import config from '../config';
 
 export default {
   async all() {

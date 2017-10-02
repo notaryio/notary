@@ -1,12 +1,12 @@
 import _ from 'lodash';
 import { VError } from 'verror';
 
-import syncHelper from '../helpers/sync';
-import { ProjectInfo, ProjectRevision, ProjectWorkspace } from '../models';
-import ProjectRepository from './project';
-import ContractRepository from '../../contracts/repository';
-import Contract from '../../contracts/contract';
-import Definitions from '../../contracts/definitions';
+import syncHelper from './sync_helper';
+import { ProjectInfo, ProjectRevision, ProjectWorkspace } from './models';
+import ProjectRepository from './project_repository';
+import ContractRepository from '../contracts/repository';
+import Contract from '../contracts/contract';
+import Definitions from '../contracts/definition-validator';
 
 export default {
   async all() {
@@ -26,7 +26,7 @@ export default {
 
     const workspace = new ProjectWorkspace({ project, rev });
     await syncHelper.syncProjectWorkspace(workspace);
-    const contracts = await ContractRepository.findAllWithinWorkspace(workspace);
+    const contracts = await ContractRepository.allWithinWorkspace(workspace);
     const info = await this.getProjectInfo(workspace);
 
     return new ProjectRevision({ workspace, contracts, info });

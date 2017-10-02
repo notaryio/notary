@@ -1,17 +1,12 @@
-import api from './api';
-import gui from './endpoints/directory_gui/server';
+import api from './http';
 import config from './config';
-import sync from './projects/helpers/sync';
+import sync from './projects/sync_helper';
 
 sync
   //todo: .validateConfiguration()
-  .syncAllProjectsOnStartup()
+  .syncAllProjectsMasters()
   .then(function() {
-    const server = api.listen(3000, '0.0.0.0', () => config.logger.info('API server running'));
-    process.on('exit', () => server.close());
-  })
-  .then(function() {
-    const server = gui.listen(4000, '0.0.0.0', () => config.logger.info('GUI Server running'));
+    const server = api.listen(3000, '0.0.0.0', () => config.logger.info('notary-core up & running at 3000...'));
     process.on('exit', () => server.close());
   })
   .catch(err => {
