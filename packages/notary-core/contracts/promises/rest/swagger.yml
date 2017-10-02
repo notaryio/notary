@@ -381,18 +381,18 @@ paths:
                                   href:
                                     type: string
                                     example: "http://notary.omar.de/projects/bm90YXJ5fGNvbnRyYWN0cy8gLW4K/revisions/master/contracts/notary_core_v1.1_restful_api/raw-content"
-                              "rest-complete-swagger":
+                              rest-single-file-swagger:
                                 type: object
                                 properties:
                                   href:
                                     type: string
-                                    example: "http://notary.omar.de/projects/bm90YXJ5fGNvbnRyYWN0cy8gLW4K/revisions/master/contracts/notary_core_v1.1_restful_api/rest/complete-swagger"
-                              "schema:renderedYaml":
+                                    example: "http://notary.omar.de/rest/single-file-swagger?project=bm90YXJ5fGNvbnRyYWN0cy8gLW4K&revision=master&contract=notary_core_v1.1_restful_api"
+                              schema-rendered-yaml:
                                 type: object
                                 properties:
                                   href:
                                     type: string
-                                    example: "http://notary.omar.de/projects/bm90YXJ5fGNvbnRyYWN0cy8gLW4K/revisions/master/contracts/notary_core_v1.1_restful_api/schema/rendered-yaml"
+                                    example: "http://notary.omar.de/schema/rendered-yaml?project=bm90YXJ5fGNvbnRyYWN0cy8gLW4K&revision=master&contract=promise__default__schema"
                             required:
                               - self
                               - raw-content
@@ -545,7 +545,7 @@ definitions:
                 example: "http://notary.omar.de/schema/rendered-yaml?project=bm90YXJ5fGNvbnRyYWN0cy8gLW4K&revision=master&contract=promise__default__schema"
         required:
           - self
-          - rawContract
+          - raw-content
   ValidationReport:
     type: object
   ProjectNotFound:
