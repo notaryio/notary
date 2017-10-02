@@ -11,10 +11,15 @@ export default class Contract {
   integrationType = null;
   upstream = null;
   meta = null;
+  name = null;
 
   constructor(props) {
     _.assign(this, props);
     this.validate();
+
+    if (!this.name) {
+      this.name = this.meta.name ? this.meta.name : `default__${this.type}__${this.integrationType}`;
+    }
   }
 
   validate() {

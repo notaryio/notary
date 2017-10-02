@@ -23,8 +23,17 @@ let config = yaml.load(fs.readFileSync(configPath));
 if (process.env.GITHUB_TOKEN) {
   config.githubToken = process.env.GITHUB_TOKEN;
 }
+
 if (process.env.DEFAULT_REPOSITORY_OWNER) {
   config.defaultRepositoryOwner = process.env.DEFAULT_REPOSITORY_OWNER;
+}
+
+if (process.env.CORE_URL) {
+  config.coreUrl = process.env.CORE_URL;
+}
+
+if (!config.coreUrl) {
+  throw new Error('Fatal error, you need to set the CORE_URL environment variable.')
 }
 
 config.logger = logger;

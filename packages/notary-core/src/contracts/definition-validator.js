@@ -6,7 +6,7 @@ import yaml from 'js-yaml';
 import _ from 'lodash';
 import { VError } from 'verror';
 
-import Integrations from '../integrations';
+import Integrations from './integrations';
 
 const ajv = new Ajv({
   allErrors: true,
@@ -15,7 +15,7 @@ const ajv = new Ajv({
 });
 
 ajv.addSchema(
-  yaml.load(fs.readFileSync(path.join(__dirname, 'schema.yml'))),
+  yaml.load(fs.readFileSync(path.join(__dirname, 'definition-schema.yml'))),
   'ContractsDefinitionSchema'
 );
 

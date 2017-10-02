@@ -43,7 +43,6 @@
     "express-zip": "^2.0.1",
     "js-yaml": "^3.8.4",
     "lodash": "^4.17.4",
-    "notary-plugins-subsystem": "0.5.0",
     "pretty-swag": "^0.1.100",
     "recursive-readdir": "^2.2.1",
     "swagger-mock-api": "^1.6.0",

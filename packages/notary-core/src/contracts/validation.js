@@ -4,10 +4,10 @@ import path from 'path';
 import { VError } from 'verror';
 import _ from 'lodash';
 
-import ProjectRevisionRepository from '../projects/repositories/project_revision';
+import ProjectRevisionRepository from '../projects/project_revision_repository';
 import Contract from './contract';
 import { Project } from '../projects/models';
-import Definitions from './definitions';
+import Definitions from './definition-validator';
 import Integrations from './integrations';
 
 /**

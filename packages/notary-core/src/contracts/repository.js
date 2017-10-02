@@ -2,10 +2,10 @@ import _ from 'lodash';
 import { VError } from 'verror';
 
 import Contract from './contract';
-import Definitions from './definitions';
+import Definitions from './definition-validator';
 
 export default {
-  async findAllWithinWorkspace(workspace) {
+  async allWithinWorkspace(workspace) {
     try {
       const definition = await Definitions.load(workspace);
 

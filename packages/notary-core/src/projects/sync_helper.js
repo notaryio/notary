@@ -2,9 +2,9 @@ import { exec } from 'child-process-promise';
 import { VError } from 'verror';
 import _ from 'lodash';
 
-import config from '../../config';
-import { ProjectWorkspace } from '../models';
-import ProjectRepository from '../repositories/project';
+import config from '../config';
+import { ProjectWorkspace } from './models';
+import ProjectRepository from './project_repository';
 
 let cache = {};
 
@@ -13,7 +13,7 @@ export default {
    * Synchronize the master branch of all configured projects on startup,
    * we have to do it before exposing any of the API endpoints.
    */
-  async syncAllProjectsOnStartup() {
+  async syncAllProjectsMasters() {
     config.logger.info('About to download all of the configured projects...');
 
     const projects = await ProjectRepository.all();
@@ -25,8 +25,8 @@ export default {
     );
   },
 
-  async syncProjectWorkspace(projectWorkspace) {
-    if (this.wasSynchronizedRecently(projectWorkspace)) {
+  async syncProjectWorkspace(projectWorkspace, forceSync = false) {
+    if (!forceSync && this.wasSynchronizedRecently(projectWorkspace)) {
       return Promise.resolve(true);
     }
 
