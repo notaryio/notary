@@ -109,7 +109,39 @@ paths:
           description: "Project response"
           schema:
             $ref: "#/definitions/ProjectNotFound"
-
+  /master-revisions:
+    get:
+      tags:
+      - "revisions"
+      summary: "List all projects' master revisions"
+      description: "Returns a list of all projects with its master revisions"
+      operationId: "listProjectMasterRevisions"
+      produces:
+        - "application/json"
+      responses:
+        200:
+          description: "Successfully return all projects with master revision"
+          schema:
+            type: object
+            properties:
+              _embedded:
+                type: object
+                properties:
+                  revisions:
+                    type: array
+                    items:
+                      $ref: "#/definitions/ProjectRevisionHal"
+                required:
+                  - revisions
+              _links:
+                type: object
+                properties:
+                  self:
+                    type: object
+                    properties:
+                      href:
+                        type: string
+                        example: "/projects/bm90YXJ5fGNvbnRyYWN0cy8gLW4K/revisions/master"
   /projects/{projectId}/revisions/{revision}:
     get:
       tags:
@@ -134,31 +166,7 @@ paths:
         200:
           description: "Successfully return revision details"
           schema:
-            allOf:
-              - $ref: "#/definitions/ProjectRevision"
-              - properties:
-                  _embedded:
-                    type: object
-                    properties:
-                      contracts:
-                        type: array
-                        items:
-                          $ref: '#/definitions/ContractHal'
-                  _links:
-                    type: object
-                    properties:
-                      self:
-                        type: object
-                        properties:
-                          href:
-                            type: string
-                            example: "/projects/bm90YXJ5fGNvbnRyYWN0cy8gLW4K/revisions/master"
-                      project:
-                        type: object
-                        properties:
-                          href:
-                            type: string
-                            example: "/projects/bm90YXJ5fGNvbnRyYWN0cy8gLW4K/revisions/master/contracts"
+            $ref: "#/definitions/ProjectRevisionHal"
         400:
           description: "Invalid project/revision error"
           schema:
@@ -267,7 +275,7 @@ paths:
             description: "Project not found error"
             schema:
               $ref: "#/definitions/ProjectNotFound"
-  /projects/{projectId}/revisions/{revision}/contracts/{contractName}/actions/raw:
+  /projects/{projectId}/revisions/{revision}/contracts/{contractName}/raw-content:
     get:
       tags:
       - "contracts"
@@ -354,12 +362,12 @@ paths:
                                   href:
                                     type: string
                                     example: "/projects/bm90YXJ5fGNvbnRyYWN0cy8gLW4K/revisions/master"
-                              rawContract:
+                              raw-content:
                                 type: object
                                 properties:
                                   href:
                                     type: string
-                                    example: "/projects/bm90YXJ5fGNvbnRyYWN0cy8gLW4K/revisions/master/contracts/notary_core_v1.1_restful_api/raw"
+                                    example: "/projects/bm90YXJ5fGNvbnRyYWN0cy8gLW4K/revisions/master/contracts/notary_core_v1.1_restful_api/raw-content"
                               "rest-complete-swagger":
                                 type: object
                                 properties:
@@ -374,7 +382,7 @@ paths:
                                     example: "/projects/bm90YXJ5fGNvbnRyYWN0cy8gLW4K/revisions/master/contracts/notary_core_v1.1_restful_api/schema/rendered-yaml"
                             required:
                               - self
-                              - rawContract
+                              - raw-content
           404:
             description: "Integration plugin not found"
             schema:
@@ -402,10 +410,22 @@ definitions:
   ProjectRevision:
     type: "object"
     properties:
+      repositoryName:
+        type: "string"
+        description: "Github repository name, e.g. for github.com/notaryio/notary, this field would be \"notary\""
+        example: "notary"
+      repositoryOwner:
+        type: "string"
+        description: "Github owner username, e.g. for github.com/notaryio/notary, this field would be \"notaryio\""
+        example: "notaryio"
+      contractsDirectory:
+        type: "string"
+        description: "Directory path(relative to repository root) that contains the contracts.yml file, the default is \"contracts/\""
+        example: "contracts/"
       revision:
         type: "string"
         description: "Git revision, can be a commit hash, branch name or a tag name."
-        example: "f36bc3eca353b6045d6a41beabb354ae39158d91"
+        example: "master"
       manifest:
         type: "object"
         properties:
@@ -418,8 +438,37 @@ definitions:
               department: "legal"
               email: "team-x@company.com"
     required:
+      - repositoryName
+      - repositoryOwner
+      - contractsDirectory
       - revision
       - manifest
+  ProjectRevisionHal:
+    allOf:
+    - $ref: "#/definitions/ProjectRevision"
+    - properties:
+        _embedded:
+          type: object
+          properties:
+            contracts:
+              type: array
+              items:
+                $ref: '#/definitions/ContractHal'
+        _links:
+          type: object
+          properties:
+            self:
+              type: object
+              properties:
+                href:
+                  type: string
+                  example: "/projects/bm90YXJ5fGNvbnRyYWN0cy8gLW4K/revisions/master"
+            project:
+              type: object
+              properties:
+                href:
+                  type: string
+                  example: "/projects/bm90YXJ5fGNvbnRyYWN0cy8gLW4K"
   Contract:
     type: "object"
     properties:
@@ -463,24 +512,24 @@ definitions:
               href:
                 type: string
                 example: "/projects/bm90YXJ5fGNvbnRyYWN0cy8gLW4K/revisions/master/contracts/notary_core_v1.1_restful_api"
-          rawContract:
+          raw-content:
             type: object
             properties:
               href:
                 type: string
-                example: "/projects/bm90YXJ5fGNvbnRyYWN0cy8gLW4K/revisions/master/contracts/notary_core_v1.1_restful_api/raw"
-          "rest:completeSwagger":
+                example: "/projects/bm90YXJ5fGNvbnRyYWN0cy8gLW4K/revisions/master/contracts/notary_core_v1.1_restful_api/raw-content"
+          "rest-single-file-swagger":
             type: object
             properties:
               href:
                 type: string
-                example: "/projects/bm90YXJ5fGNvbnRyYWN0cy8gLW4K/revisions/master/contracts/notary_core_v1.1_restful_api/rest/complete-swagger"
-          "schema:renderedYaml":
+                example: "/projects/bm90YXJ5fGNvbnRyYWN0cy8gLW4K/revisions/master/contracts/notary_core_v1.1_restful_api/rest-single-file-swagger"
+          "schema-rendered-yaml":
             type: object
             properties:
               href:
                 type: string
-                example: "/projects/bm90YXJ5fGNvbnRyYWN0cy8gLW4K/revisions/master/contracts/notary_core_v1.1_restful_api/schema/rendered-yaml"
+                example: "/projects/bm90YXJ5fGNvbnRyYWN0cy8gLW4K/revisions/master/contracts/notary_core_v1.1_restful_api/schema-rendered-yaml"
         required:
           - self
           - rawContract
