@@ -51,7 +51,7 @@ paths:
                                 properties:
                                   href:
                                     type: string
-                                    example: "http://notary.omar.de/projects/bm90YXJ5fGNvbnRyYWN0cy8gLW4K/revisions/{?revision}"
+                                    example: "http://notary.omar.de/projects/bm90YXJ5fGNvbnRyYWN0cy8gLW4K/revisions/{revision}"
                                   templated:
                                     type: boolean
                                     example: true
@@ -110,7 +110,7 @@ paths:
                       properties:
                         href:
                           type: string
-                          example: "http://notary.omar.de/projects/bm90YXJ5fGNvbnRyYWN0cy8gLW4K/revisions/{?revision}"
+                          example: "http://notary.omar.de/projects/bm90YXJ5fGNvbnRyYWN0cy8gLW4K/revisions/{revision}"
                         templated:
                           type: boolean
                           example: true
