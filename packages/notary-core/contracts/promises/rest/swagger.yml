@@ -39,22 +39,35 @@ paths:
                                 properties:
                                   href:
                                     type: string
-                                    example: "/projects/bm90YXJ5fGNvbnRyYWN0cy8gLW4K"
+                                    example: "http://notary.omar.de/projects/bm90YXJ5fGNvbnRyYWN0cy8gLW4K"
                               masterRevision:
                                 type: object
                                 properties:
                                   href:
                                     type: string
-                                    example: "/projects/bm90YXJ5fGNvbnRyYWN0cy8gLW4K/revisions/master"
+                                    example: "http://notary.omar.de/projects/bm90YXJ5fGNvbnRyYWN0cy8gLW4K/revisions/master"
                               revision:
                                 type: object
                                 properties:
                                   href:
                                     type: string
-                                    example: "/projects/bm90YXJ5fGNvbnRyYWN0cy8gLW4K/revisions/{?revision}"
+                                    example: "http://notary.omar.de/projects/bm90YXJ5fGNvbnRyYWN0cy8gLW4K/revisions/{?revision}"
                                   templated:
                                     type: boolean
                                     example: true
+              _links:
+                type: object
+                properties:
+                  self:
+                    type: object
+                    properties:
+                      href:
+                        type: string
+                        example: "http://notary.omar.de/projects"
+                    required:
+                      - href
+                required:
+                  - self
   /projects/{projectId}:
     get:
       tags:
@@ -85,19 +98,19 @@ paths:
                       properties:
                         href:
                           type: string
-                          example: "/projects/bm90YXJ5fGNvbnRyYWN0cy8gLW4K"
+                          example: "http://notary.omar.de/projects/bm90YXJ5fGNvbnRyYWN0cy8gLW4K"
                     masterRevision:
                       type: object
                       properties:
                         href:
                           type: string
-                          example: "/projects/bm90YXJ5fGNvbnRyYWN0cy8gLW4K/revisions/master"
+                          example: "http://notary.omar.de/projects/bm90YXJ5fGNvbnRyYWN0cy8gLW4K/revisions/master"
                     revision:
                       type: object
                       properties:
                         href:
                           type: string
-                          example: "/projects/bm90YXJ5fGNvbnRyYWN0cy8gLW4K/revisions/{?revision}"
+                          example: "http://notary.omar.de/projects/bm90YXJ5fGNvbnRyYWN0cy8gLW4K/revisions/{?revision}"
                         templated:
                           type: boolean
                           example: true
@@ -141,7 +154,7 @@ paths:
                     properties:
                       href:
                         type: string
-                        example: "/projects/bm90YXJ5fGNvbnRyYWN0cy8gLW4K/revisions/master"
+                        example: "http://notary.omar.de/projects/bm90YXJ5fGNvbnRyYWN0cy8gLW4K/revisions/master"
   /projects/{projectId}/revisions/{revision}:
     get:
       tags:
@@ -216,13 +229,13 @@ paths:
                         properties:
                           href:
                             type: string
-                            example: "/projects/bm90YXJ5fGNvbnRyYWN0cy8gLW4K/revisions/master"
+                            example: "http://notary.omar.de/projects/bm90YXJ5fGNvbnRyYWN0cy8gLW4K/revisions/master"
                       project:
                         type: object
                         properties:
                           href:
                             type: string
-                            example: "/projects/bm90YXJ5fGNvbnRyYWN0cy8gLW4K/revisions/master/contracts"
+                            example: "http://notary.omar.de/projects/bm90YXJ5fGNvbnRyYWN0cy8gLW4K/revisions/master/contracts"
         400:
           description: "Invalid project/revision error"
           schema:
@@ -266,7 +279,7 @@ paths:
                           properties:
                             href:
                               type: string
-                              example: "/projects/bm90YXJ5fGNvbnRyYWN0cy8gLW4K/revisions/master/reports/latest"
+                              example: "http://notary.omar.de/projects/bm90YXJ5fGNvbnRyYWN0cy8gLW4K/revisions/master/reports/latest"
           400:
             description: "Invalid project error"
             schema:
@@ -349,37 +362,37 @@ paths:
                                 properties:
                                   href:
                                     type: string
-                                    example: "/projects/bm90YXJ5fGNvbnRyYWN0cy8gLW4K/revisions/master/contracts/notary_core_v1.1_restful_api"
+                                    example: "http://notary.omar.de/projects/bm90YXJ5fGNvbnRyYWN0cy8gLW4K/revisions/master/contracts/notary_core_v1.1_restful_api"
                               project:
                                 type: object
                                 properties:
                                   href:
                                     type: string
-                                    example: "/projects/bm90YXJ5fGNvbnRyYWN0cy8gLW4K"
+                                    example: "http://notary.omar.de/projects/bm90YXJ5fGNvbnRyYWN0cy8gLW4K"
                               projectRevision:
                                 type: object
                                 properties:
                                   href:
                                     type: string
-                                    example: "/projects/bm90YXJ5fGNvbnRyYWN0cy8gLW4K/revisions/master"
+                                    example: "http://notary.omar.de/projects/bm90YXJ5fGNvbnRyYWN0cy8gLW4K/revisions/master"
                               raw-content:
                                 type: object
                                 properties:
                                   href:
                                     type: string
-                                    example: "/projects/bm90YXJ5fGNvbnRyYWN0cy8gLW4K/revisions/master/contracts/notary_core_v1.1_restful_api/raw-content"
+                                    example: "http://notary.omar.de/projects/bm90YXJ5fGNvbnRyYWN0cy8gLW4K/revisions/master/contracts/notary_core_v1.1_restful_api/raw-content"
                               "rest-complete-swagger":
                                 type: object
                                 properties:
                                   href:
                                     type: string
-                                    example: "/projects/bm90YXJ5fGNvbnRyYWN0cy8gLW4K/revisions/master/contracts/notary_core_v1.1_restful_api/rest/complete-swagger"
+                                    example: "http://notary.omar.de/projects/bm90YXJ5fGNvbnRyYWN0cy8gLW4K/revisions/master/contracts/notary_core_v1.1_restful_api/rest/complete-swagger"
                               "schema:renderedYaml":
                                 type: object
                                 properties:
                                   href:
                                     type: string
-                                    example: "/projects/bm90YXJ5fGNvbnRyYWN0cy8gLW4K/revisions/master/contracts/notary_core_v1.1_restful_api/schema/rendered-yaml"
+                                    example: "http://notary.omar.de/projects/bm90YXJ5fGNvbnRyYWN0cy8gLW4K/revisions/master/contracts/notary_core_v1.1_restful_api/schema/rendered-yaml"
                             required:
                               - self
                               - raw-content
@@ -462,13 +475,13 @@ definitions:
               properties:
                 href:
                   type: string
-                  example: "/projects/bm90YXJ5fGNvbnRyYWN0cy8gLW4K/revisions/master"
+                  example: "http://notary.omar.de/projects/bm90YXJ5fGNvbnRyYWN0cy8gLW4K/revisions/master"
             project:
               type: object
               properties:
                 href:
                   type: string
-                  example: "/projects/bm90YXJ5fGNvbnRyYWN0cy8gLW4K"
+                  example: "http://notary.omar.de/projects/bm90YXJ5fGNvbnRyYWN0cy8gLW4K"
   Contract:
     type: "object"
     properties:
@@ -511,25 +524,25 @@ definitions:
             properties:
               href:
                 type: string
-                example: "/projects/bm90YXJ5fGNvbnRyYWN0cy8gLW4K/revisions/master/contracts/notary_core_v1.1_restful_api"
+                example: "http://notary.omar.de/projects/bm90YXJ5fGNvbnRyYWN0cy8gLW4K/revisions/master/contracts/notary_core_v1.1_restful_api"
           raw-content:
             type: object
             properties:
               href:
                 type: string
-                example: "/projects/bm90YXJ5fGNvbnRyYWN0cy8gLW4K/revisions/master/contracts/notary_core_v1.1_restful_api/raw-content"
-          "rest-single-file-swagger":
+                example: "http://notary.omar.de/projects/bm90YXJ5fGNvbnRyYWN0cy8gLW4K/revisions/master/contracts/notary_core_v1.1_restful_api/raw-content"
+          rest-single-file-swagger:
             type: object
             properties:
               href:
                 type: string
-                example: "/projects/bm90YXJ5fGNvbnRyYWN0cy8gLW4K/revisions/master/contracts/notary_core_v1.1_restful_api/rest-single-file-swagger"
-          "schema-rendered-yaml":
+                example: "http://notary.omar.de/rest/single-file-swagger?project=bm90YXJ5fGNvbnRyYWN0cy8gLW4K&revision=master&contract=notary_core_v1.1_restful_api"
+          schema-rendered-yaml:
             type: object
             properties:
               href:
                 type: string
-                example: "/projects/bm90YXJ5fGNvbnRyYWN0cy8gLW4K/revisions/master/contracts/notary_core_v1.1_restful_api/schema-rendered-yaml"
+                example: "http://notary.omar.de/schema/rendered-yaml?project=bm90YXJ5fGNvbnRyYWN0cy8gLW4K&revision=master&contract=promise__default__schema"
         required:
           - self
           - rawContract
