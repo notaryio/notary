@@ -1,0 +1,524 @@
+swagger: "2.0"
+info:
+  description: "notary-core's RESTful API providing read-access to configured projects & contracts"
+  version: "1.0.0"
+  title: "notary-core's RESTful API"
+basePath: "/"
+schemes:
+- "http"
+paths:
+  /projects:
+    get:
+      tags:
+      - "projects"
+      summary: "List all projects tracked by notary."
+      description: "List all projects along with their master revision annotations."
+      operationId: "getAllProjects"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "Successful all projects response"
+          schema:
+            type: object
+            properties:
+              _embedded:
+                type: object
+                properties:
+                  projects:
+                    type: array
+                    items:
+                      allOf:
+                      - $ref: "#/definitions/Project"
+                      - properties:
+                          _links:
+                            type: object
+                            properties:
+                              self:
+                                type: object
+                                properties:
+                                  href:
+                                    type: string
+                                    example: "/projects/bm90YXJ5fGNvbnRyYWN0cy8gLW4K"
+                              masterRevision:
+                                type: object
+                                properties:
+                                  href:
+                                    type: string
+                                    example: "/projects/bm90YXJ5fGNvbnRyYWN0cy8gLW4K/revisions/master"
+                              revision:
+                                type: object
+                                properties:
+                                  href:
+                                    type: string
+                                    example: "/projects/bm90YXJ5fGNvbnRyYWN0cy8gLW4K/revisions/{?revision}"
+                                  templated:
+                                    type: boolean
+                                    example: true
+  /projects/{projectId}:
+    get:
+      tags:
+      - "projects"
+      summary: "Get a project by base64 encoded identifier."
+      description: "Get a single project by the encoded identifier, which is the base64 hash of repository name + '|' + directory name, for example base64('notaryio|contracts/')"
+      operationId: "getProject"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "path"
+        type: "string"
+        name: "projectId"
+        description: "Base64 encoded identifier of \"${repositoryName}|${contractsDirectoryName}\", for example base64('notaryio|contracts/')"
+        required: true
+      responses:
+        200:
+          description: "Successful project details call"
+          schema:
+            allOf:
+            - $ref: "#/definitions/Project"
+            - properties:
+                _links:
+                  type: object
+                  properties:
+                    self:
+                      type: object
+                      properties:
+                        href:
+                          type: string
+                          example: "/projects/bm90YXJ5fGNvbnRyYWN0cy8gLW4K"
+                    masterRevision:
+                      type: object
+                      properties:
+                        href:
+                          type: string
+                          example: "/projects/bm90YXJ5fGNvbnRyYWN0cy8gLW4K/revisions/master"
+                    revision:
+                      type: object
+                      properties:
+                        href:
+                          type: string
+                          example: "/projects/bm90YXJ5fGNvbnRyYWN0cy8gLW4K/revisions/{?revision}"
+                        templated:
+                          type: boolean
+                          example: true
+        400:
+          description: "Invalid project response"
+          schema:
+            $ref: "#/definitions/ProjectInvalid"
+        404:
+          description: "Project response"
+          schema:
+            $ref: "#/definitions/ProjectNotFound"
+
+  /projects/{projectId}/revisions/{revision}:
+    get:
+      tags:
+      - "revisions"
+      summary: "Get a specific revision for a project"
+      description: "You need to supply both the projectId & a valid Git revision"
+      operationId: "getProjectRevision"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "path"
+          type: "string"
+          name: "projectId"
+          description: "Base64 encoded identifier of \"${repositoryName}|${contractsDirectoryName}\", for example base64('notaryio|contracts/')"
+          required: true
+        - in: "path"
+          type: "string"
+          name: "revision"
+          description: "A valid Git revision, can be a commit hash, branch name or a tag name."
+          required: true
+      responses:
+        200:
+          description: "Successfully return revision details"
+          schema:
+            allOf:
+              - $ref: "#/definitions/ProjectRevision"
+              - properties:
+                  _embedded:
+                    type: object
+                    properties:
+                      contracts:
+                        type: array
+                        items:
+                          $ref: '#/definitions/ContractHal'
+                  _links:
+                    type: object
+                    properties:
+                      self:
+                        type: object
+                        properties:
+                          href:
+                            type: string
+                            example: "/projects/bm90YXJ5fGNvbnRyYWN0cy8gLW4K/revisions/master"
+                      project:
+                        type: object
+                        properties:
+                          href:
+                            type: string
+                            example: "/projects/bm90YXJ5fGNvbnRyYWN0cy8gLW4K/revisions/master/contracts"
+        400:
+          description: "Invalid project/revision error"
+          schema:
+            $ref: "#/definitions/ProjectInvalid"
+        404:
+          description: "Project/revision not found error"
+          schema:
+            $ref: "#/definitions/ProjectNotFound"
+    post:
+      tags:
+      - "revisions"
+      summary: "Synchronize the specified revision for a tracked notary project"
+      description: "notary will force-update the project's manifest & contracts for the specified revision."
+      operationId: "synchronizeProjectRevision"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "path"
+          type: "string"
+          name: "projectId"
+          description: "Base64 encoded identifier of \"${repositoryName}|${contractsDirectoryName}\", for example base64('notaryio|contracts/')"
+          required: true
+        - in: "path"
+          type: "string"
+          name: "revision"
+          description: "A valid Git revision, can be a commit hash, branch name or a tag name."
+          required: true
+      responses:
+        201:
+          description: "Successfully synchronized project's revision"
+          schema:
+            allOf:
+              - $ref: "#/definitions/ProjectRevision"
+              - properties:
+                  _embedded:
+                    type: object
+                    properties:
+                      contracts:
+                        type: array
+                        items:
+                          $ref: '#/definitions/ContractHal'
+                  _links:
+                    type: object
+                    properties:
+                      self:
+                        type: object
+                        properties:
+                          href:
+                            type: string
+                            example: "/projects/bm90YXJ5fGNvbnRyYWN0cy8gLW4K/revisions/master"
+                      project:
+                        type: object
+                        properties:
+                          href:
+                            type: string
+                            example: "/projects/bm90YXJ5fGNvbnRyYWN0cy8gLW4K/revisions/master/contracts"
+        400:
+          description: "Invalid project/revision error"
+          schema:
+            $ref: "#/definitions/ProjectInvalid"
+        404:
+          description: "Project/revision not found error"
+          schema:
+            $ref: "#/definitions/ProjectNotFound"
+  /projects/{projectId}/revisions/{revision}/reports:
+      post:
+        tags:
+        - "revisions"
+        summary: "Trigger a full validation for a specific project revision"
+        description: "Trigger a full consumer-producer validation and return a detailed report"
+        operationId: "createAValidationReportProjectRevision"
+        produces:
+          - "application/json"
+        parameters:
+          - in: "path"
+            type: "string"
+            name: "projectId"
+            description: "Base64 encoded identifier of \"${repositoryName}|${contractsDirectoryName}\", for example base64('notaryio|contracts/')"
+            required: true
+          - in: "path"
+            type: "string"
+            name: "revision"
+            description: "A valid Git revision, can be a commit hash, branch name or a tag name."
+            required: true
+        responses:
+          201:
+            description: "Validation report created successfully."
+            schema:
+              allOf:
+                - $ref: "#/definitions/ValidationReport"
+                - properties:
+                    _links:
+                      type: object
+                      properties:
+                        self:
+                          type: object
+                          properties:
+                            href:
+                              type: string
+                              example: "/projects/bm90YXJ5fGNvbnRyYWN0cy8gLW4K/revisions/master/reports/latest"
+          400:
+            description: "Invalid project error"
+            schema:
+              $ref: "#/definitions/ProjectInvalid"
+          404:
+            description: "Project not found error"
+            schema:
+              $ref: "#/definitions/ProjectNotFound"
+  /projects/{projectId}/revisions/{revision}/contracts/{contractName}/actions/raw:
+    get:
+      tags:
+      - "contracts"
+      summary: "Get the contract raw content as a ZIP archive."
+      description: "Outputs either a textual representation of the contract after rendering it for the rest & schema integration plugins otherwise, a ZIP archive containing all of the files"
+      operationId: "getContractRawContent"
+      produces:
+        - "application/zip"
+      parameters:
+        - in: "path"
+          type: "string"
+          name: "projectId"
+          description: "Base64 encoded identifier of \"${repositoryName}|${contractsDirectoryName}\", for example base64('notaryio|contracts/')"
+          required: true
+        - in: "path"
+          type: "string"
+          name: "revision"
+          description: "A valid Git revision, can be a commit hash, branch name or a tag name."
+          required: true
+        - in: "path"
+          type: "string"
+          name: "contractName"
+          description: "Machine-friendly contract name, if you no specific name was given on definition, this will be ${integrationPlugin}-default-contract"
+          required: true
+      responses:
+        200:
+          description: "successful operation"
+  /integartion-plugins/{pluginName}/contracts:
+      get:
+        tags:
+        - "contracts"
+        summary: "List all contracts of a specific integration plugin."
+        operationId: "getAllContractsIntegrationPlugin"
+        produces:
+          - "application/json"
+        parameters:
+          - in: "path"
+            type: "string"
+            name: "pluginName"
+            description: "Get all contracts of an integration plugin, e.g. rest or schema"
+            required: true
+        responses:
+          200:
+            description: "Successfully list all contracts of the integration plugin type."
+            schema:
+              type: object
+              properties:
+                _links:
+                  type: object
+                  properties:
+                    self:
+                      type: object
+                      properties:
+                        href:
+                          type: string
+                          example: "/integration-plugins/rest/contracts"
+                _embedded:
+                  properties:
+                    contracts:
+                      type: array
+                      items:
+                        allOf:
+                        - $ref: "#/definitions/Contract"
+                        - properties:
+                           _links:
+                            type: object
+                            description: "Actions available on the current contract, this depends on which integration plugin is used"
+                            properties:
+                              self:
+                                type: object
+                                properties:
+                                  href:
+                                    type: string
+                                    example: "/projects/bm90YXJ5fGNvbnRyYWN0cy8gLW4K/revisions/master/contracts/notary_core_v1.1_restful_api"
+                              project:
+                                type: object
+                                properties:
+                                  href:
+                                    type: string
+                                    example: "/projects/bm90YXJ5fGNvbnRyYWN0cy8gLW4K"
+                              projectRevision:
+                                type: object
+                                properties:
+                                  href:
+                                    type: string
+                                    example: "/projects/bm90YXJ5fGNvbnRyYWN0cy8gLW4K/revisions/master"
+                              rawContract:
+                                type: object
+                                properties:
+                                  href:
+                                    type: string
+                                    example: "/projects/bm90YXJ5fGNvbnRyYWN0cy8gLW4K/revisions/master/contracts/notary_core_v1.1_restful_api/raw"
+                              "rest-complete-swagger":
+                                type: object
+                                properties:
+                                  href:
+                                    type: string
+                                    example: "/projects/bm90YXJ5fGNvbnRyYWN0cy8gLW4K/revisions/master/contracts/notary_core_v1.1_restful_api/rest/complete-swagger"
+                              "schema:renderedYaml":
+                                type: object
+                                properties:
+                                  href:
+                                    type: string
+                                    example: "/projects/bm90YXJ5fGNvbnRyYWN0cy8gLW4K/revisions/master/contracts/notary_core_v1.1_restful_api/schema/rendered-yaml"
+                            required:
+                              - self
+                              - rawContract
+          404:
+            description: "Integration plugin not found"
+            schema:
+              $ref: "#/definitions/IntegrationPluginNotFound"
+definitions:
+  Project:
+    type: "object"
+    properties:
+      repositoryName:
+        type: "string"
+        description: "Github repository name, e.g. for github.com/notaryio/notary, this field would be \"notary\""
+        example: "notary"
+      repositoryOwner:
+        type: "string"
+        description: "Github owner username, e.g. for github.com/notaryio/notary, this field would be \"notaryio\""
+        example: "notaryio"
+      contractsDirectory:
+        type: "string"
+        description: "Directory path(relative to repository root) that contains the contracts.yml file, the default is \"contracts/\""
+        example: "contracts/"
+    required:
+      - repositoryName
+      - repositoryOwner
+      - contractsDirectory
+  ProjectRevision:
+    type: "object"
+    properties:
+      revision:
+        type: "string"
+        description: "Git revision, can be a commit hash, branch name or a tag name."
+        example: "f36bc3eca353b6045d6a41beabb354ae39158d91"
+      manifest:
+        type: "object"
+        properties:
+          annotations:
+            type: "object"
+            description: "Zero or more annotations attached to the project, this can be used to store meta information."
+            additionalProperties: true
+            example:
+              team: "team-x"
+              department: "legal"
+              email: "team-x@company.com"
+    required:
+      - revision
+      - manifest
+  Contract:
+    type: "object"
+    properties:
+      name:
+        type: "string"
+        description: "Machine-friendly name for the contract, if this is not supplied by the contract definition and you only have one contract of a certain integration plugin, this will be automatically field with ${integrationPlugin}-default-contract, for example: rest-default-contract."
+        example: "notary_core_v1.1_restful_api"
+      type:
+        type: "string"
+        description: "Whether the contract is a promise or an expectation."
+        enum:
+          - "promise"
+          - "expectation"
+      integrationPlugin:
+        type: "string"
+        description: "Name of the integration type plugin used for this contract, e.g. rest or schema"
+        enum:
+          - "rest"
+          - "schema"
+      annotations:
+        type: "object"
+        additionalProperties: true
+        description: "Zero or more annotations attached to the contract, this can be used to store meta information. This is used by plugins as an extension point to provide more input per contract to customize behaviour."
+        example:
+          prototypeName: "trackingEvent"
+    required:
+      - "type"
+      - "integrationPlugin"
+      - "annotations"
+  ContractHal:
+    allOf:
+    - $ref: "#/definitions/Contract"
+    - properties:
+       _links:
+        type: object
+        description: "Actions available on the current contract, this depends on which integration plugin is used"
+        properties:
+          self:
+            type: object
+            properties:
+              href:
+                type: string
+                example: "/projects/bm90YXJ5fGNvbnRyYWN0cy8gLW4K/revisions/master/contracts/notary_core_v1.1_restful_api"
+          rawContract:
+            type: object
+            properties:
+              href:
+                type: string
+                example: "/projects/bm90YXJ5fGNvbnRyYWN0cy8gLW4K/revisions/master/contracts/notary_core_v1.1_restful_api/raw"
+          "rest:completeSwagger":
+            type: object
+            properties:
+              href:
+                type: string
+                example: "/projects/bm90YXJ5fGNvbnRyYWN0cy8gLW4K/revisions/master/contracts/notary_core_v1.1_restful_api/rest/complete-swagger"
+          "schema:renderedYaml":
+            type: object
+            properties:
+              href:
+                type: string
+                example: "/projects/bm90YXJ5fGNvbnRyYWN0cy8gLW4K/revisions/master/contracts/notary_core_v1.1_restful_api/schema/rendered-yaml"
+        required:
+          - self
+          - rawContract
+  ValidationReport:
+    type: object
+  ProjectNotFound:
+    type: object
+    properties:
+      error:
+        type: "string"
+        example: "Project not found {repositoryName=notari,contractsDirectory=contracts/}"
+      errorDescription:
+        type: "string"
+        example: "Project not found {repositoryName=notari,contractsDirectory=contracts/}, make sure the repository name is correct, directory exists and the project is correct registered in notary's configs"
+    required:
+      - error
+      - errorDescription
+  ProjectInvalid:
+    type: object
+    properties:
+      error:
+        type: "string"
+        example: "Project{repositoryName=notary,contractsDirectory=contracts/} is invalid"
+      errorDescription:
+        type: "string"
+        example: "Project's revision was checked-out correctly but the contracts.yml is either invalid or missing"
+    required:
+      - error
+      - errorDescription
+  IntegrationPluginNotFound:
+      type: object
+      properties:
+        error:
+          type: "string"
+          example: "Plugin not found {name=grpc}"
+        errorDescription:
+          type: "string"
+          example: "Project not found {name=grpc}, make sure the plugin is installed and correctly configured in notary-core"
+      required:
+        - error
+        - errorDescription
