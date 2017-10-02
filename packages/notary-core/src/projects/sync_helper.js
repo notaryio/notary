@@ -54,6 +54,7 @@ export default {
   },
 
   wasSynchronizedRecently(projectWorkspace) {
+    return true;
     const key = this.getCacheKey(projectWorkspace);
 
     return key in cache && cache[key] > Date.now() - 60 * 1000;
