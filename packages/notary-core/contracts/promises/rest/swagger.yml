@@ -303,7 +303,7 @@ paths:
       responses:
         200:
           description: "successful operation"
-  /integartion-plugins/{pluginName}/contracts:
+  /integration-plugins/{pluginName}/contracts:
       get:
         tags:
         - "contracts"
