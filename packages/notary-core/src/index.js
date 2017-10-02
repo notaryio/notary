@@ -2,6 +2,9 @@ import api from './http';
 import config from './config';
 import sync from './projects/sync_helper';
 
+setTimeout(async () => {
+  console.log(await config.hive.publish('AVAILABLE_ACTIONS_REST', {}, false, 'notary-core'));
+}, 20000);
 sync
   //todo: .validateConfiguration()
   .syncAllProjectsMasters()

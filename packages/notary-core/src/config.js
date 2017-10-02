@@ -4,6 +4,8 @@ import fs from 'fs';
 import winston from 'winston';
 import yaml from 'js-yaml';
 
+import { MasterNode } from 'notary-hive';
+
 const logger = new winston.Logger({
   level: 'debug',
   transports: [
@@ -38,5 +40,7 @@ if (!config.coreUrl) {
 
 config.logger = logger;
 config.tmpDir = tmpDir;
+config.hive = new MasterNode(3010);
+config.logger.info(`[notary-hive] Master node is up at :3010`);
 
 export default config;
