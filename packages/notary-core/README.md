@@ -1,0 +1,1 @@
+notary's core; this package handles synchronization of contracts across one or more Github organization, basic contracts validation and co-ordinates all plugins to perform integration type-specific validation logic.

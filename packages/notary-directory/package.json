@@ -1,0 +1,26 @@
+{
+  "name": "notary-directory",
+  "version": "0.5.0",
+  "description": "The human-friendly face of notary, provides an easy-to-browse directory to all registered contracts with features like filtering based on annotations, visualization of projects relationships and rendering of raw contracts to human-readable documentation.",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/notaryio/notary.git"
+  },
+  "keywords": [
+    "contracts",
+    "notary",
+    "consumer-contracts",
+    "producer-contracts",
+    "consumer-driven",
+    "swagger",
+    "open-api",
+    "microservices",
+    "contracts-directory"
+  ],
+  "author": "Omar Ahmed <omar@omar.de>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/notaryio/notary/issues"
+  },
+  "homepage": "https://github.com/notaryio/notary#readme"
+}

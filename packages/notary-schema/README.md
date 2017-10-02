@@ -1,0 +1,1 @@
+Plugin for notary to support defining JSON schema arbitrary contracts that must abide to an installation-level Prototype.

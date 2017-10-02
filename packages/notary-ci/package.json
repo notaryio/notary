@@ -1,0 +1,30 @@
+{
+  "name": "notary-ci",
+  "version": "0.5.0",
+  "description": "The CI-friendly face of notary, provides a cURL/wget-able endpoint to trigger contracts sync and/or validation easily; Also, returns a CLI-readable validation reports.",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/notaryio/notary.git"
+  },
+  "keywords": [
+    "contracts",
+    "notary",
+    "consumer-contracts",
+    "producer-contracts",
+    "consumer-driven",
+    "swagger",
+    "open-api",
+    "microservices",
+    "contracts-directory",
+    "ci",
+    "jenkins",
+    "travis",
+    "drone"
+  ],
+  "author": "Omar Ahmed <omar@omar.de>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/notaryio/notary/issues"
+  },
+  "homepage": "https://github.com/notaryio/notary#readme"
+}

@@ -1,0 +1,1 @@
+Plugin for notary to support defining RESTful APIs contracts using the Swagger(OpenAPI) spec.
