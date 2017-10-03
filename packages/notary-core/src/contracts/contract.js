@@ -18,7 +18,15 @@ export default class Contract {
     this.validate();
 
     if (!this.name) {
-      this.name = this.meta.name ? this.meta.name : `default__${this.type}__${this.integrationType}`;
+      if (this.meta.name) {
+        this.name = this.meta.name
+      } else {
+        if (this.type === 'expectation') {
+          this.name = `expectation_upstream_${Buffer.from(`${this.upstream.repo}|${this.upstream.dir}`).toString('base64')}__${this.integrationType}`;
+        } else {
+          this.name = `promise__default__${this.integrationType}`;
+        }
+      }
     }
   }
 

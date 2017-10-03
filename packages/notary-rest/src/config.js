@@ -13,6 +13,8 @@ config.logger = new winston.Logger({
   ]
 });
 
+config.coreUrl = process.env.CORE_URL;
+
 config.restUrl = process.env.REST_URL;
 config.restPort = process.env.REST_PORT;
 

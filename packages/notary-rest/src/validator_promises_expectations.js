@@ -1,14 +1,48 @@
 import util from 'util';
+import fs from 'fs';
 import { diff } from 'deep-diff';
 
 import _ from 'lodash';
 import { VError } from 'verror';
+
+import parser from './parser';
 
 const inspect = o => {
   return util.inspect(o, false, null);
 };
 
 export default {
+  /**
+   * Cross-checks producer promises with consumer expectations.
+   *
+   * @param {Contract} promiseContract
+   * @param {Contract} expectationContract
+   * @returns {Promise.<void>}
+   */
+  async validate(
+    promiseContract,
+    expectationContract
+  ) {
+    const producerSwagger = await parser
+      .parse(promiseContract)
+      .catch(err => {
+        throw new VError(
+          `Error! producer contract at ${promiseContract.projectDisplayName}/${promiseContract.definitionContentDir}` +
+          err.message
+        );
+      });
+    const consumerSwagger = await parser
+      .parse(expectationContract)
+      .catch(err => {
+        throw new VError(
+          `Error! consumer contract at ${expectationContract.projectDisplayName}/${expectationContract.definitionContentDir}` +
+          err.message
+        );
+      });
+
+    return await this.isSubset(producerSwagger, consumerSwagger);
+  },
+
   async isSubset(producerSwagger, consumerSwagger) {
     const validateBasePath = (producerSwagger, consumerSwagger) => {
       if (producerSwagger.basePath !== consumerSwagger.basePath) {
