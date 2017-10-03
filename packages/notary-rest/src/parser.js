@@ -8,16 +8,16 @@ import { VError } from 'verror';
 import _ from 'lodash';
 
 export default {
-  parse: async baseDir => {
+  parse: async (contract) => {
     const files = await new Promise((resolve, reject) => {
-      glob(path.join(baseDir, '**/*.y?(a)ml'), {}, (err, files) => {
+      glob(path.join(contract.localContentPath, '**/*.y?(a)ml'), {}, (err, files) => {
         if (err) reject(err);
         else resolve(files);
       });
     });
 
     if (files.length === 0) {
-      throw new VError(`Could'nt find any non-empty yaml/yml files in ${baseDir}`);
+      throw new VError(`Could'nt find any non-empty yaml/yml files in ${contract.definitionContentDir}`);
     }
 
     const filesContent = await Promise.all(
@@ -39,9 +39,9 @@ export default {
     });
 
     if (mergedYaml === '') {
-      throw new VError(`Could'nt find any non-empty yaml/yml files in ${baseDir}`);
+      throw new VError(`Could'nt find any non-empty yaml/yml files in ${contract.definitionContentDir}`);
     }
 
-    return SwaggerParser.dereference(mergedYaml, { baseDir: baseDir });
+    return SwaggerParser.dereference(mergedYaml, { baseDir: contract.localContentPath });
   }
 };

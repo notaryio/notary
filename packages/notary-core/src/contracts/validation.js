@@ -8,7 +8,7 @@ import ProjectRevisionRepository from '../projects/project_revision_repository';
 import Contract from './contract';
 import { Project } from '../projects/models';
 import Definitions from './definition-validator';
-import Integrations from './integrations';
+import config from '../config';
 
 /**
  * Two cases, a project might:
@@ -75,15 +75,28 @@ async function contractsPathsValidation(def, dirBasePath) {
 async function contractsSchemaValidation(projectRevision) {
   return Promise.all(
     projectRevision.contracts.map(async c => {
-      const facade = Integrations.get(c.integrationType);
-      return await facade.validateContractSchema(projectRevision, c).catch(err => {
+      const response = await config.hive.publish(`CONTRACT_VALIDATE_SCHEMA_${c.integrationType.toUpperCase()}`, {
+        projectDisplayName: `${projectRevision.project().repo}:${projectRevision.project().dir}`,
+        projectId: Buffer.from(`${projectRevision.project().repo}|${projectRevision.project().dir}`).toString('base64'),
+        revision: projectRevision.rev(),
+        contractDefinition: c
+      }, false, 'notary-core');
+
+      let err;
+      if (!response || response.length === 0) {
+        err = `No plugin available to validate ${c.integrationType}`;
+      } else if(response[0] && response[0].errors !== null) {
+        err = response[0].errors;
+      }
+
+      if (err) {
         throw new VError(
           `Error! contract at ${projectRevision.project().repo}:` +
-            `${projectRevision.project()
-              .dir}/${c.dir} of type ${c.integrationType} is not valid: ` +
-            err.message
+          `${projectRevision.project()
+            .dir}/${c.dir} of type ${c.integrationType} is not valid: ` +
+          err
         );
-      });
+      }
     })
   );
 }
@@ -136,21 +149,39 @@ async function producerPromisesValidation(projectRevision, def) {
           })
           .filter(pair => pair !== null)
           .map(async pair => {
-            const facade = Integrations.get(promise.integrationType);
+            const response = await config.hive.publish(`CONTRACT_VALIDATE_PROMISE_EXPECTATION_${promise.integrationType.toUpperCase()}`, {
+              promise: {
+                projectDisplayName: `${projectRevision.project().repo}:${projectRevision.project().dir}`,
+                projectId: Buffer.from(`${projectRevision.project().repo}|${projectRevision.project().dir}`).toString('base64'),
+                revision: projectRevision.rev(),
+                contractDefinition: promise
+              },
+              expectation: {
+                projectDisplayName: `${pair.consumerProjectRev.project().repo}:${pair.consumerProjectRev.project().dir}`,
+                projectId: Buffer.from(`${pair.consumerProjectRev.project().repo}|${pair.consumerProjectRev.project().dir}`).toString('base64'),
+                revision: pair.consumerProjectRev.rev(),
+                contractDefinition: pair.consumerExpectation
+              }
+            }, false, 'notary-core');
 
-            return await facade
-              .validate(projectRevision, pair.consumerProjectRev, promise, pair.consumerExpectation)
-              .catch(err => {
-                throw new VError(
-                  `Consumer [ ${pair.consumerProjectRev.project()
-                    .repo}:${pair.consumerProjectRev.project()
-                    .dir}/ @ ${pair.consumerProjectRev.rev()} ] ` +
-                    `expectations of type (${pair.consumerExpectation
-                      .integrationType}) is broken: \n` +
-                    `============================================================================ \n` +
-                    err.message
-                );
-              });
+            let err;
+            if (!response || response.length === 0) {
+              err = `No plugin available to validate ${promise.integrationType}`;
+            } else if(response[0] && response[0].errors !== null) {
+              err = response[0].errors;
+            }
+
+            if (err) {
+              throw new VError(
+                `Consumer [ ${pair.consumerProjectRev.project()
+                  .repo}:${pair.consumerProjectRev.project()
+                  .dir}/ @ ${pair.consumerProjectRev.rev()} ] ` +
+                `expectations of type (${pair.consumerExpectation
+                  .integrationType}) is broken: \n` +
+                `============================================================================ \n` +
+                err
+              );
+            }
           })
       );
     })
@@ -196,17 +227,37 @@ async function consumerExpectationsValidation(projectRevision, def) {
         });
       }
 
-      const facade = Integrations.get(e.integrationType);
+      const response = await config.hive.publish(`CONTRACT_VALIDATE_PROMISE_EXPECTATION_${e.integrationType.toUpperCase()}`, {
+        promise: {
+          projectDisplayName: `${upstream.project().repo}:${upstream.project().dir}`,
+          projectId: Buffer.from(`${upstream.project().repo}|${upstream.project().dir}`).toString('base64'),
+          revision: upstream.rev(),
+          contractDefinition: upstreamPromise
+        },
+        expectation: {
+          projectDisplayName: `${projectRevision.project().repo}:${projectRevision.project().dir}`,
+          projectId: Buffer.from(`${projectRevision.project().repo}|${projectRevision.project().dir}`).toString('base64'),
+          revision: projectRevision.rev(),
+          contractDefinition: e
+        }
+      }, false, 'notary-core');
 
-      return await facade.validate(upstream, projectRevision, upstreamPromise, e).catch(err => {
+      let err;
+      if (!response || response.length === 0) {
+        err = `No plugin available to validate ${e.integrationType}`;
+      } else if(response[0] && response[0].errors !== null) {
+        err = response[0].errors;
+      }
+
+      if (err) {
         throw new VError(
           `Producer [ ${upstream.project().repo}:${upstream.project()
             .dir}/ @ ${upstream.rev()} ] ` +
-            `expectations of type (${e.integrationType}) is broken: \n` +
-            `============================================================================ \n` +
-            err.message
+          `expectations of type (${e.integrationType}) is broken: \n` +
+          `============================================================================ \n` +
+          err
         );
-      });
+      }
     })
   );
 }

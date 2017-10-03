@@ -36,7 +36,7 @@ export default {
         err,
         `Failed to fetch contracts for workspace: ${workspace.project.repo}/${workspace.project
           .dir}` +
-          `@ ${workspace.rev}` +
+          ` @ ${workspace.rev}` +
           err.message
       );
     }

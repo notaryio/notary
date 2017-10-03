@@ -49,7 +49,7 @@ server.post('/projects/:id/revisions/:revision', async (req, res) => {
   const [repo, dir] = Buffer.from(req.params['id'], 'base64').toString().split('|');
   await syncHelper.syncProjectWorkspace(
     new ProjectWorkspace({project: new Project({repo, dir}), rev: req.params['revision']}),
-    true
+    false
   );
 
   res.redirect(`/projects/${req.params['id']}/revisions/${req.params['revision']}`);
