@@ -3,12 +3,16 @@ import downloadHelper from './download_helper';
 import schemaValidator from './validator_schema';
 import promisesExpectationsValidator from './validator_promises_expectations';
 import Contract from './contract';
+import server from './http';
 
 config.hive.subscribe('CONTRACT_AVAILABLE_ACTIONS', availableActions) ;
 
 config.hive.subscribe('CONTRACT_VALIDATE_SCHEMA_REST', validateSchema);
 
 config.hive.subscribe('CONTRACT_VALIDATE_PROMISE_EXPECTATION_REST', validatePromisesExpectations);
+
+server.listen(config.restPort, '0.0.0.0', () => config.logger.info(`notary-rest up & running at ${config.restUrl}...`));
+process.on('exit', () => server.close());
 
 async function availableActions({ data }) {
   if (data.integrationPlugin === 'rest') {
