@@ -111,7 +111,6 @@ export default {
       const typeActions = r[`${contract.type}Actions`];
       if (!typeActions) return;
       typeActions.forEach(a => {
-        console.log(a);
         actions[a.name] = {
           href: a.href,
           label: a.label
