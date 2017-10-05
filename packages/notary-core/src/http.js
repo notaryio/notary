@@ -14,6 +14,10 @@ import contractsValidator from './contracts/validation';
 
 const server = express();
 
+server.get('/', async (req, res) => {
+  res.send(hal.serviceIndex());
+});
+
 server.get('/projects', async (req, res) => {
   const projects = await projectRepository.all();
 
@@ -24,7 +28,7 @@ server.get('/projects', async (req, res) => {
     },
     _links: {
       self: {
-        href: `${config.coreUrl}//projects`
+        href: `${config.coreUrl}/projects`
       }
     }
   });

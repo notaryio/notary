@@ -1,6 +1,22 @@
 import config from './config';
 
 export default {
+  serviceIndex() {
+    return {
+      _links: {
+        self: {
+          href: `${config.coreUrl}/`
+        },
+        projects: {
+          href: `${config.coreUrl}/projects`
+        },
+        masterRevisions: {
+          href: `${config.coreUrl}/master-revisions`
+        }
+      }
+    };
+  },
+
   toProject(project) {
     const encodedId = this.toEncodedProjectId(project);
     return {
