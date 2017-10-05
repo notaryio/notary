@@ -23,7 +23,7 @@ Support for multiple popular integration patterns like REST APIs will be shipped
 
 ## What is a *Contract*?
 
-A contract is either a **Producer Promise** or a **Consumer Expectation**. In C7s, it's a meta-data describing how to use a specific shared integration point, e.g.: a Swagger file describing exposed REST API endpoint including API versioning, paths, supported methods, response entities, etc..
+A contract is either a **Producer Promise** or a **Consumer Expectation**. In notary, it's a meta-data describing how to use a specific shared integration point, e.g.: a Swagger file describing exposed REST API endpoint including API versioning, paths, supported methods, response entities, etc..
 
 ## How does the provider/consumer validation work?
 To validate your contracts you need to issue a request to the [validation endpoint]. Ideally, this will be done automatically in your CI pipeline.
