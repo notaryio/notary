@@ -1,7 +1,13 @@
-import _ from 'lodash';
+import fs from 'fs';
+import path from 'path';
 
-import config from '../../../config';
+import _ from 'lodash';
+import yaml from 'js-yaml';
+
 import Prototype from './prototype';
+
+const configPath = process.env.YML_PATH || path.join(__dirname, '..', 'sample-config.yml');
+const config = yaml.load(fs.readFileSync(configPath));
 
 export default {
   /**

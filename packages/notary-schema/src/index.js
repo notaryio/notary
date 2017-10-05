@@ -1,132 +1,80 @@
-import util from 'util';
+import config from './config';
+import downloadHelper from './download_helper';
+import schemaValidator from './validator_schema';
+import promisesExpectationsValidator from './validator_promises_expectations';
+import Contract from './contract';
+import server from './http';
 
-import Ajv from 'ajv';
-import { VError } from 'verror';
-import _ from 'lodash';
+config.hive.subscribe('CONTRACT_AVAILABLE_ACTIONS', availableActions) ;
 
-import parser from './parser';
-import configParser from './config_parser';
+config.hive.subscribe('CONTRACT_VALIDATE_SCHEMA_SCHEMA', validateSchema);
 
-const ajv = new Ajv({
-  allErrors: true,
-  verbose: true,
-  v5: true
-});
+config.hive.subscribe('CONTRACT_VALIDATE_PROMISE_EXPECTATION_SCHEMA', validatePromisesExpectations);
 
-const inspect = o => {
-  return util.inspect(o, false, null);
-};
+server.listen(config.schemaPort, '0.0.0.0', () => config.logger.info(`notary-schema up & running at ${config.schemaUrl}...`));
+process.on('exit', () => server.close());
 
-/**
- * Cross-checks producer promises with consumer expectations.
- *
- * @param {ProjectRevision} producerProjectRevision
- * @param {ProjectRevision} consumerProjectRevision
- * @param {Contract} promiseContract
- * @param {Contract} expectationContract
- * @returns {Promise.<void>}
- */
-async function validate(
-  producerProjectRevision,
-  consumerProjectRevision,
-  promiseContract,
-  expectationContract
-) {
-  if (promiseContract.meta.prototypeName !== expectationContract.meta.prototypeName) {
-    throw new VError(
-      `Promised prototypeName: ${promiseContract.meta.prototypeName} doesn't` +
-        ` match expected prototypeName: ${expectationContract.meta.prototypeName}`
-    );
-  }
+async function availableActions({ data }) {
+  if (data.integrationPlugin === 'schema') {
+    const DOWNLOAD_RENDERED_YAML = {
+      label: 'Download Rendered YAML',
+      name: 'schema-rendered-yaml',
+      href: `${config.schemaUrl}/rendered-yaml?project=${data.project}&revision=${data.revision}&contract=${data.contract}`
+    };
 
-  const promiseContractContent = await parser.parse(
-    producerProjectRevision.workspace.resolveContractsPath(promiseContract.dir)
-  );
-  const expectationContractContent = await parser.parse(
-    consumerProjectRevision.workspace.resolveContractsPath(expectationContract.dir)
-  );
-
-  if (!_.isMatch(promiseContractContent, expectationContractContent)) {
-    throw new VError(
-      `Expectation broken: \n\n ${inspect(expectationContractContent)} \n\n` +
-        `is not a subset of: \n\n${inspect(promiseContractContent)}\n`
-    );
+    return {
+      promiseActions: [ DOWNLOAD_RENDERED_YAML ],
+      expectationActions: [ DOWNLOAD_RENDERED_YAML ]
+    };
   }
 }
 
-/**
- * Validates only the contract schema.
- *
- * @param {ProjectRevision} projectRevision
- * @param {Contract} contract
- * @returns {Promise.<void>}
- */
-async function validateContractSchema(projectRevision, contract) {
-  const contractContent = await parser.parse(
-    projectRevision.workspace.resolveContractsPath(contract.dir)
-  );
+async function validateSchema({ data }) {
+  const { projectDisplayName, projectId, revision, contractDefinition } = data;
 
-  if (!contract.meta.prototypeName) {
-    throw new VError(
-      'Contract definitions of type "schema" needs a meta.prototypeName field defined.'
-    );
-  }
+  try {
+    const contractContentPath = await downloadHelper.downloadContract(projectId, revision, contractDefinition.name);
+    await schemaValidator.validate(new Contract({
+      projectDisplayName,
+      projectId,
+      definition: contractDefinition,
+      localContentPath: contractContentPath
+    }));
 
-  const proto = configParser.prototypeByName(contract.meta.prototypeName);
-  if (!configParser.prototypeByName(contract.meta.prototypeName)) {
-    throw new VError(
-      `Invalid prototype ${contract.meta
-        .prototypeName}, contact your administrator to get the correct prototype name.`
-    );
-  }
-
-  const matchesPrototype = ajv.validate(proto.schema, contractContent);
-  if (!matchesPrototype) {
-    throw new VError(`Contract doesn't match the prototype: ${ajv.errorsText()}`);
+    return { errors: null };
+  } catch(e) {
+    return { errors: e.message };
   }
 }
 
-/**
- * Renders a contract to an HTML string.
- *
- * @param {ProjectRevision} projectRevision
- * @param {Contract} contract
- *
- * @returns {Promise.<string>} HTML rendered contract
- */
-async function renderToHtml(projectRevision, contract) {
-  const contractContent = await parser.parse(
-    projectRevision.workspace.resolveContractsPath(contract.dir)
-  );
-  let markup = `<table class="notary-modules-schema">`;
-  _.toPairs(contractContent).forEach(e => {
-    markup += `<tr>`;
-    markup += `<td>${e[0]}</td>`;
-    if (typeof e[1] === 'object') {
-      markup += `<td>${inspect(e[1]).replace(`\n`, `<br>`)}</td>`;
-    } else {
-      markup += `<td>${e[1]}</td>`;
-    }
-    markup += `</tr>`;
-  });
+async function validatePromisesExpectations({ data }) {
+  const { promise, expectation } = data;
 
-  markup += `</table>`;
-  markup += `
-    <style>
-    .notary-modules-schema {
-      width: 100%
-    }
-    .notary-modules-schema th, td{
-      padding: 15px;
-      text-align: left;
-    }
-    </style>
-  `;
-  return markup;
+  try {
+    const promiseContractContentPath = await downloadHelper.downloadContract(
+      promise.projectId, promise.revision, promise.contractDefinition.name
+    );
+    const expectationContractContentPath = await downloadHelper.downloadContract(
+      expectation.projectId, expectation.revision, expectation.contractDefinition.name
+    );
+
+    await promisesExpectationsValidator.validate(
+      new Contract({
+        projectDisplayName: promise.projectDisplayName,
+        projectId: promise.projectId,
+        definition: promise.contractDefinition,
+        localContentPath: promiseContractContentPath
+      }),
+      new Contract({
+        projectDisplayName: expectation.projectDisplayName,
+        projectId: expectation.projectId,
+        definition: expectation.contractDefinition,
+        localContentPath: expectationContractContentPath
+      }),
+    );
+
+    return { errors: null };
+  } catch(e) {
+    return { errors: e.message };
+  }
 }
-
-module.exports = {
-  validate,
-  validateContractSchema,
-  renderToHtml
-};

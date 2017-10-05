@@ -47,12 +47,10 @@ async function validateSchema({ data }) {
   }
 }
 
-async function validatePromisesExpectations ({ data }) {
+async function validatePromisesExpectations({ data }) {
   const { promise, expectation } = data;
 
   try {
-    console.log('promise contract name', promise.contractDefinition.name);
-    console.log('expectation contract name', expectation.contractDefinition.name);
     const promiseContractContentPath = await downloadHelper.downloadContract(
       promise.projectId, promise.revision, promise.contractDefinition.name
     );
