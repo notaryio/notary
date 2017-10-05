@@ -57,10 +57,11 @@ server.post('/projects/:id/revisions/:revision', async (req, res) => {
 
 server.post('/projects/:id/revisions/:revision/reports', async (req, res) => {
   const [repo, directory] = Buffer.from(req.params['id'], 'base64').toString().split('|');
-  const project = await projectRepository.findByRepoAndDir(repo, directory);
-  const revision = await revisionRepository.findByProjectAndRev(project, req.params['revision']);
 
   try {
+    const project = await projectRepository.findByRepoAndDir(repo, directory);
+    const revision = await revisionRepository.findByProjectAndRev(project, req.params['revision']);
+
     await contractsValidator.isValid(revision);
     res.send({errors: null})
   } catch (e) {
