@@ -1,1 +1,1 @@
-The human-friendly face of notary; provides an easy-to-browse directory to all registered contracts with features like filtering based on annotations, visualization of projects relationships and rendering of raw contracts to human-readable documentation.
+The CI-friendly face of notary, provides a cURL/wget-able endpoint to trigger contracts sync and/or validation easily; Also, returns a CLI-readable validation reports.
