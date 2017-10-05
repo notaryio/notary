@@ -70,7 +70,6 @@ export default {
     );
     const concatenatedContent = filesContent.join(`\n`);
 
-    console.log(concatenatedContent);
     //todo: change to reduce
     let mergedYaml = '';
     yaml.loadAll(concatenatedContent, function(doc) {

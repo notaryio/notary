@@ -1,4 +1,6 @@
 import express from 'express';
+import json2yaml from 'json2yaml';
+import _ from 'lodash';
 
 import config from './config';
 import downloadHelper from './download_helper';
@@ -17,9 +19,13 @@ server.get('/single-file-swagger', async (req, res) => {
     localContentPath
   }));
 
-  const { swagger, info, paths, produces, definitions } = swaggerDoc;
+  const sanitizedSwaggerDoc = _.pick(swaggerDoc, _.keys(swaggerDoc));
 
-  res.send({ swagger, info, paths, produces, definitions });
+  if (req.header('accept') === 'text/yaml') {
+    res.send(json2yaml.stringify(sanitizedSwaggerDoc));
+  } else {
+    res.send(sanitizedSwaggerDoc);
+  }
 });
 
 server.use(
