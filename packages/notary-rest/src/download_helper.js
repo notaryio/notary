@@ -10,6 +10,8 @@ tmp.setGracefulCleanup();
 
 export default {
   async downloadContract(projectId, revision, contractName) {
+    console.log(`${config.coreUrl}/projects/${projectId}/revisions/${revision}/contracts/${contractName}/raw-content`);
+
     const response = await axios.get(
       `${config.coreUrl}/projects/${projectId}/revisions/${revision}/contracts/${contractName}/raw-content`,
       { responseType: 'arraybuffer', headers: { 'Content-Type': 'application/zip' } }

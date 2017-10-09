@@ -54,14 +54,18 @@ export default {
   },
 
   wasSynchronizedRecently(projectWorkspace) {
-    return true;
     const key = this.getCacheKey(projectWorkspace);
+    const expiry = this.looksLikeHash(projectWorkspace.rev) ? 5 : 1 ; //minutes
 
-    return key in cache && cache[key] > Date.now() - 60 * 1000;
+    return key in cache && cache[key] > Date.now() - expiry * 60 * 1000;
   },
 
   getCacheKey(projectWorkspace) {
     return `${projectWorkspace.owner}/${projectWorkspace.project.repo}:${projectWorkspace.project
       .dir}@${projectWorkspace.rev}`;
+  },
+
+  looksLikeHash(rev) {
+    return /[a-fA-F0-9]{32}/.test(rev);
   }
 };

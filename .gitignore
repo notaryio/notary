@@ -185,3 +185,4 @@ dist/
 notary.iml
 coverage.lcov
 config.yml
+lerna-debug.log

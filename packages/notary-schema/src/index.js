@@ -5,6 +5,10 @@ import promisesExpectationsValidator from './validator_promises_expectations';
 import Contract from './contract';
 import server from './http';
 
+process.on('unhandledRejection', (reason) => {
+  config.logger.error(reason);
+});
+
 config.hive.subscribe('CONTRACT_AVAILABLE_ACTIONS', availableActions) ;
 
 config.hive.subscribe('CONTRACT_VALIDATE_SCHEMA_SCHEMA', validateSchema);
