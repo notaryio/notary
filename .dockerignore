@@ -6,3 +6,5 @@
 **/node_modules/
 tmp/
 *.log
+config.yml
+sample-config.yml

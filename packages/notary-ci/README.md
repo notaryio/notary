@@ -1,0 +1,1 @@
+The CI-friendly face of notary, provides a cURL/wget-able endpoint to trigger contracts sync and/or validation easily; Also, returns a CLI-readable validation reports.
