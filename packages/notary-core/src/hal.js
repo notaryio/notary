@@ -1,7 +1,15 @@
+import _ from 'lodash';
 import config from './config';
 
 export default {
-  serviceIndex() {
+  serviceIndex(plugins) {
+    let pluginsLinks = {};
+    plugins.forEach(p => {
+        pluginsLinks[_.camelCase(`${p}Contracts`)] = {
+          href: `${config.coreUrl}/integration-plugins/${p}/contracts`
+        };
+    });
+
     return {
       _links: {
         self: {
@@ -12,7 +20,8 @@ export default {
         },
         masterRevisions: {
           href: `${config.coreUrl}/master-revisions`
-        }
+        },
+        ...pluginsLinks
       }
     };
   },

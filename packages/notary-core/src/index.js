@@ -2,6 +2,10 @@ import api from './http';
 import config from './config';
 import sync from './projects/sync_helper';
 
+process.on('unhandledRejection', (reason) => {
+  config.logger.error(reason);
+});
+
 sync
   //todo: .validateConfiguration()
   .syncAllProjectsMasters()

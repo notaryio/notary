@@ -15,7 +15,13 @@ import contractsValidator from './contracts/validation';
 const server = express();
 
 server.get('/', async (req, res) => {
-  res.send(hal.serviceIndex());
+  const projects = await projectRepository.all();
+  const projectsWithMasterRevision = await Promise.all(projects.map(async (project) => {
+    return {project, masterRevision: await revisionRepository.findByProjectAndRev(project, 'master')};
+  }));
+  let plugins = [];
+  projectsWithMasterRevision.forEach(p => p.masterRevision.contracts.forEach(c => plugins.push(c.integrationType)));
+  res.send(hal.serviceIndex(_.uniq(plugins)));
 });
 
 server.get('/projects', async (req, res) => {
@@ -118,12 +124,12 @@ server.get('/integration-plugins/:name/contracts', async (req, res) => {
   const projectsWithMasterRevision = await Promise.all(projects.map(async (project) => {
     return {project, masterRevision: await revisionRepository.findByProjectAndRev(project, 'master')};
   }));
-  let halContracts = [];
-  projectsWithMasterRevision.forEach(pair => {
-    pair.masterRevision.contracts.filter(c => c.integrationType === req.params['name']).forEach(c => {
-      halContracts.push(hal.toContract(c, pair.project, pair.masterRevision));
-    });
-  });
+  const halContracts = [].concat.apply([], await Promise.all(projectsWithMasterRevision.map(async pair => {
+    const contracts = pair.masterRevision.contracts.filter(c => c.integrationType === req.params['name']);
+    return Promise.all(contracts.map(async c => {
+      return await hal.toContract(c, pair.project, pair.masterRevision);
+    }));
+  })));
 
   res.send({
     count: halContracts.length,
