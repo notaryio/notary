@@ -1,85 +1,37 @@
 import path from 'path';
 import fs from 'fs';
 
-import yaml from 'js-yaml';
-import glob from 'glob';
 import SwaggerParser from 'swagger-parser';
 import { VError } from 'verror';
-import _ from 'lodash';
 
-export default {
-  parse: async (contract) => {
-    const files = await new Promise((resolve, reject) => {
-      glob(path.join(contract.localContentPath, '**/*.y?(a)ml'), {}, (err, files) => {
-        if (err) reject(err);
-        else resolve(files);
-      });
-    });
+const promisifiedFileExists = (file) => {
+  return new Promise(resolve => {
+    fs.access(file, err => (err ? resolve(false) : resolve(true)));
+  });
+};
 
-    if (files.length === 0) {
-      throw new VError(`Could'nt find any non-empty yaml/yml files in ${contract.definitionContentDir}`);
+const parser = {
+  swaggerFile: async (contract) => {
+    let file = 'swagger.yml';
+    if (!await promisifiedFileExists(path.resolve(contract.localContentPath, file))) {
+      file = 'swagger.yaml';
+      if (!await promisifiedFileExists(path.resolve(contract.localContentPath, file))) {
+        throw new VError(
+          `Could not find any a swagger.yaml or swagger.yml file in ${contract.definitionContentDir}`
+        );
+      }
     }
 
-    const filesContent = await Promise.all(
-      files.map(async f => {
-        return new Promise((resolve, reject) => {
-          fs.readFile(f, (err, data) => {
-            if (err) reject(err);
-            else resolve(data);
-          });
-        });
-      })
-    );
-    const concatenatedContent = filesContent.join(`\n`);
-
-    //todo: change to reduce
-    let mergedYaml = '';
-    yaml.loadAll(concatenatedContent, function(doc) {
-      mergedYaml = _.merge(mergedYaml, doc);
-    });
-
-    if (mergedYaml === '') {
-      throw new VError(`Could'nt find any non-empty yaml/yml files in ${contract.definitionContentDir}`);
-    }
-
-    return SwaggerParser.dereference(mergedYaml, { baseDir: contract.localContentPath });
+    return path.resolve(contract.localContentPath, file);
   },
 
-  //TODO: refactor
-  bundle: async (contract) => {
-    const files = await new Promise((resolve, reject) => {
-      glob(path.join(contract.localContentPath, '**/*.y?(a)ml'), {}, (err, files) => {
-        if (err) reject(err);
-        else resolve(files);
-      });
-    });
-
-    if (files.length === 0) {
-      throw new VError(`Could'nt find any non-empty yaml/yml files in ${contract.definitionContentDir}`);
-    }
-
-    const filesContent = await Promise.all(
-      files.map(async f => {
-        return new Promise((resolve, reject) => {
-          fs.readFile(f, (err, data) => {
-            if (err) reject(err);
-            else resolve(data);
-          });
-        });
-      })
+  parse: async (contract) => {
+    return SwaggerParser.dereference(
+      await parser.swaggerFile(contract),
+      { baseDir: contract.localContentPath }
     );
-    const concatenatedContent = filesContent.join(`\n`);
+  },
 
-    //todo: change to reduce
-    let mergedYaml = '';
-    yaml.loadAll(concatenatedContent, function(doc) {
-      mergedYaml = _.merge(mergedYaml, doc);
-    });
-
-    if (mergedYaml === '') {
-      throw new VError(`Could'nt find any non-empty yaml/yml files in ${contract.definitionContentDir}`);
-    }
-
-    return SwaggerParser.bundle(mergedYaml, { baseDir: contract.localContentPath });
-  }
 };
+
+export default parser;

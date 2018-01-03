@@ -13,7 +13,7 @@ server.get('/single-file-swagger', async (req, res) => {
   const { project, revision, contract } = req.query;
 
   const localContentPath = await downloadHelper.downloadContract(project, revision, contract);
-  const swaggerDoc = await parser.bundle(new Contract({
+  const swaggerDoc = await parser.parse(new Contract({
     projectId: project,
     projectDisplayName: project,
     localContentPath

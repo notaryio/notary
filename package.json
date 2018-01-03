@@ -1,6 +1,13 @@
 {
   "license": "MIT",
+  "scripts": {
+    "dev": "lerna bootstrap && lerna run dev --stream",
+    "rest-only": "npm run dev -- --scope=\"{notary-core,notary-rest}\""
+  },
   "devDependencies": {
     "lerna": "^2.2.0"
+  },
+  "dependencies": {
+    "eslint": "^4.14.0"
   }
 }
